@@ -1,0 +1,58 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4 fw-bold text-primary">
+    👥 Users List
+  </h2>
+
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-success shadow-sm" (click)="addUser()">
+      <i class="fa-solid fa-user-plus me-2"></i> Add User
+    </button>
+  </div>
+
+  <!-- 🧭 Users Table -->
+  <div class="table-responsive">
+    <table class="table table-hover align-middle shadow-sm">
+      <thead class="table-primary">
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of users" class="user-row">
+          <td><b>{{ u.id }}</b></td>
+          <td>{{ u.username }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.phone }}</td>
+          <td class="text-center">
+            <button class="btn btn-outline-info btn-sm me-1" (click)="loadUser(u.id)">View
+              <i class="fa-solid fa-eye"></i>
+            </button>
+            <button class="btn btn-outline-warning btn-sm me-1" (click)="updateUser(u.id)">Update
+              <i class="fa-solid fa-pen"></i>
+            </button>
+            <button class="btn btn-outline-danger btn-sm" (click)="deleteUser(u.id)">Delete
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 📋 Selected User Details -->
+  <div *ngIf="singleUser" class="card shadow-sm border-0 mt-4 user-details">
+    <div class="card-body">
+      <h4 class="fw-bold text-secondary mb-3">
+        👤 Selected User Details
+      </h4>
+      <p><b>Name:</b> {{ singleUser.name.firstname }} {{ singleUser.name.lastname }}</p>
+      <p><b>Email:</b> {{ singleUser.email }}</p>
+      <p><b>Username:</b> {{ singleUser.username }}</p>
+      <p><b>Phone:</b> {{ singleUser.phone }}</p>
+    </div>
+  </div>
+</div>

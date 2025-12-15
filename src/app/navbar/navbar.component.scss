@@ -1,0 +1,208 @@
+/* 🌐 Base Navbar Styling */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1050;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(90deg, #ffffff 0%, #f8f9fa 100%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+
+  &.navbar-dark {
+    background: #1f1f1f;
+  }
+}
+
+/* 🏪 Logo */
+.navbar-brand img {
+  transition: transform 0.3s ease;
+  border-radius: 8px;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* 🔗 Navbar Links */
+.nav-link {
+  color: #333 !important;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.2s ease;
+
+  &:hover,
+  &.active {
+    color: #007bff !important;
+    transform: translateY(-2px);
+  }
+}
+
+/* 📍 Dropdown Menu */
+.dropdown-menu {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.2s ease-in-out;
+
+  .dropdown-item {
+    padding: 10px 16px;
+    transition: background 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background: #007bff;
+      color: #fff;
+    }
+  }
+
+  .dropdown-header {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9rem;
+  }
+}
+
+/* 🔎 Search Bar */
+.form-control {
+  border-radius: 8px 0 0 8px;
+  border: 1px solid #ccc;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+
+  &:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+  }
+}
+
+.btn.btn-primary {
+  border-radius: 0 8px 8px 0;
+  transition: background 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+}
+
+/* 🌐 Language & Theme Toggle */
+select.form-select {
+  border-radius: 6px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+
+  &:focus {
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+  }
+}
+
+.btn-outline-secondary.btn-sm {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #007bff;
+    color: #fff;
+    border-color: #007bff;
+  }
+}
+
+/* 👤 Cart + Buttons */
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+
+  &:hover {
+    background-color: #dc3545;
+    color: #fff;
+  }
+}
+
+/* 🛒 Cart Badge */
+.badge {
+  font-size: 0.65rem;
+  padding: 0.4em 0.5em;
+  box-shadow: 0 0 6px rgba(220, 53, 69, 0.5);
+}
+
+/* 🌗 Dark Mode */
+body.dark-mode {
+  background-color: #121212;
+  color: #f5f5f5;
+
+  .navbar {
+    background: rgba(30, 30, 30, 0.9);
+    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-link,
+  .dropdown-item {
+    color: #f5f5f5 !important;
+
+    &:hover {
+      color: #ffd43b !important;
+    }
+  }
+
+  .dropdown-menu {
+    background-color: #222;
+  }
+
+  .form-control {
+    background-color: #1e1e1e;
+    color: #fff;
+    border-color: #333;
+
+    &:focus {
+      border-color: #007bff;
+    }
+  }
+
+  .btn-outline-secondary {
+    color: #fff;
+    border-color: #555;
+
+    &:hover {
+      background: #007bff;
+      border-color: #007bff;
+    }
+  }
+}
+
+/* ✨ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 📱 Responsive Adjustments */
+@media (max-width: 992px) {
+  .navbar {
+    padding: 0.8rem 1rem;
+  }
+
+  .navbar-nav {
+    text-align: center;
+  }
+
+  .form-control {
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

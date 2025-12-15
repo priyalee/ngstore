@@ -1,0 +1,64 @@
+<div class="login-container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card shadow-lg p-4 border-0 rounded-4" style="width: 380px;">
+    <h3 class="text-center mb-4 fw-bold text-primary">
+      <i class="fa-solid fa-right-to-bracket me-2"></i>User Login
+    </h3>
+
+    <form (ngSubmit)="login()">
+      <!-- Username -->
+      <div class="mb-3">
+        <label for="username" class="form-label fw-semibold">Username</label>
+        <input
+          type="text"
+          id="username"
+          class="form-control form-control-lg"
+          [(ngModel)]="username"
+          name="username"
+          placeholder="Enter username"
+          required
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label for="password" class="form-label fw-semibold">Password</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control form-control-lg"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="Enter password"
+          required
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">
+        <i class="fa-solid fa-lock me-2"></i>Login
+      </button>
+    </form>
+
+    <!-- Success Message -->
+    <div *ngIf="token" class="alert alert-success mt-3 text-center fade-in">
+      <strong>✅ Login successful!</strong><br />
+      Token: {{ token }}
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center fade-in">
+      {{ errorMessage }}
+    </div>
+
+    <button
+      *ngIf="token"
+      class="btn btn-outline-secondary w-100 mt-3"
+      (click)="logout()"
+    >
+      <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
+    </button>
+
+    <p class="text-center mt-4 text-muted small">
+      Don't have an account? <a href="#" class="text-decoration-none fw-semibold">Sign up</a>
+    </p>
+  </div>
+</div>

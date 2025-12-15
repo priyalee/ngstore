@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">🛒 Your Carts</h2>
+
+  <div class="text-center mb-4">
+    <button class="btn btn-success me-2" (click)="addCart()">Add Cart</button>
+    <button class="btn btn-primary me-2" (click)="updateCart(1)">Update Cart #1</button>
+    <button class="btn btn-danger" (click)="deleteCart(1)">Delete Cart #1</button>
+  </div>
+
+  <div *ngIf="isLoading" class="text-center">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <div *ngIf="!isLoading && carts.length > 0" class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let c of carts">
+      <div class="card cart-card shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title text-primary fw-bold">Cart ID: {{ c.id }}</h5>
+          <p class="mb-1">User ID: <span class="fw-semibold">{{ c.userId }}</span></p>
+          <p class="text-muted small">📅 {{ c.date | date:'mediumDate' }}</p>
+          <button class="btn btn-outline-primary btn-sm" (click)="viewCart(c.id)">
+            <i class="fa-solid fa-eye me-1"></i> View
+          </button>
+          <button class="btn btn-outline-danger btn-sm ms-2" (click)="deleteCart(c.id)">
+            <i class="fa-solid fa-trash me-1"></i> Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 📦 Selected Cart Details -->
+  <div *ngIf="selectedCart" class="mt-5">
+    <h4 class="text-center">🧾 Cart #{{ selectedCart.id }} Details</h4>
+    <ul class="list-group mt-3 shadow-sm">
+      <li *ngFor="let p of selectedCart.products" class="list-group-item">
+        <strong>Product ID:</strong> {{ p.productId }} |
+        <strong>Qty:</strong> {{ p.quantity }}
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="!isLoading && carts.length === 0" class="text-center mt-4">
+    <p class="text-muted">No carts available.</p>
+  </div>
+</div>
