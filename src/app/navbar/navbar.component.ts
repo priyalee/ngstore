@@ -29,7 +29,7 @@ export class NavbarComponent implements OnInit {
     this.loadCarts();
   }
 
-  // 🛍 Fetch product categories dynamically from ProductService
+  //  Fetch product categories dynamically from ProductService
   loadCategories(): void {
     this.productService.getAll().subscribe({
       next: (data) => {
@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  // 🛒 Fetch cart data for badge count
+  // Fetch cart data for badge count
   loadCarts(): void {
     this.cartService.getAll().subscribe({
       next: (res) => (this.carts = res),
@@ -48,13 +48,13 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  // 🧩 When a category is clicked, inform HomeComponent via SharedService
+  //  When a category is clicked, inform HomeComponent via SharedService
   filterByCategory(category: string): void {
     console.log('Selected category:', category);
     this.sharedService.selectCategory(category);
   }
 
-  // 🌗 Toggle dark/light theme
+  //  Toggle dark/light theme
   toggleTheme(): void {
     this.isDarkMode = !this.isDarkMode;
 
@@ -62,7 +62,7 @@ export class NavbarComponent implements OnInit {
     document.body.classList.toggle('text-white', this.isDarkMode);
   }
 
-  // 📍 Update selected location
+  //  Update selected location
   setLocation(location: string): void {
     this.currentLocation = location;
   }

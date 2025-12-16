@@ -44,7 +44,7 @@ export class CartComponent implements OnInit {
     });
   }
 
-  // ➕ Add a new cart
+  //  Add a new cart
   addCart() {
     const newCart = {
       userId: 5,

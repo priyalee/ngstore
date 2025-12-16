@@ -22,13 +22,13 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.loadProducts();
 
-    // ✅ Listen for category selection from Navbar
+    //  Listen for category selection from Navbar
     this.sharedService.categorySelected$.subscribe(category => {
       this.applyCategoryFilter(category);
     });
   }
 
-  // 🛍 Load all products
+  //  Load all products
   loadProducts(): void {
     this.productService.getAll().subscribe({
       next: (data) => {
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  // 🎯 Filter products by category
+  // Filter products by category
   private applyCategoryFilter(category: string): void {
     this.filteredProducts =
       category === 'all' || !category
@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
           );
   }
 
-  // ➕ Add a new product
+  //  Add a new product
   addProduct(): void {
     const newProduct = {
       title: 'New Demo Product',
@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  // ✏️ Update an existing product
+  //  Update an existing product
   updateProduct(id: number): void {
     const updatedData = { title: 'Updated Product Title' };
 
@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  // 🗑️ Delete a product
+  //  Delete a product
   deleteProduct(id: number): void {
     this.productService.delete(id).subscribe({
       next: () => {
