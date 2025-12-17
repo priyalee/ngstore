@@ -1,5 +1,5 @@
 
-/* 🌈 Product Cards */
+/* Product Cards */
 .product-card {
   border-radius: 12px;
   transition: all 0.3s ease;
@@ -12,7 +12,7 @@
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
 }
 
-/* 🖼️ Image Styling */
+/* Image Styling */
 .image-container {
   height: 200px;
   overflow: hidden;
@@ -29,7 +29,7 @@
   transform: scale(1.08);
 }
 
-/* 🔘 Buttons */
+/* Buttons */
 .btn {
   transition: all 0.2s ease;
 }
@@ -38,13 +38,13 @@
   transform: translateY(-2px);
 }
 
-/* 🧩 Headings */
+/* Headings */
 h2 {
   font-family: "Poppins", sans-serif;
   letter-spacing: 0.5px;
 }
 
-/* 📱 Responsive */
+/* Responsive */
 @media (max-width: 576px) {
   .product-card {
     margin-bottom: 1rem;
