@@ -1,83 +1,92 @@
+// src/app/cart/cart.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../services/cart.service';
+import { NavbarComponent } from "../navbar/navbar.component";
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NavbarComponent],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
+
   carts: any[] = [];
   selectedCart: any = null;
   isLoading = false;
+  isUpdating = false;
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService) {}
 
-  }
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadCarts();
   }
 
-  //  Load all carts
-  loadCarts() {
+  /* ================= LOAD CARTS ================= */
+
+  loadCarts(): void {
     this.isLoading = true;
+
     this.cartService.getAll().subscribe({
-      next: (data) => {
-        this.carts = data;
+      next: carts => {
+        this.carts = carts;
         this.isLoading = false;
       },
-      error: (err) => {
-        console.error('Error loading carts:', err);
-        this.isLoading = false;
+      error: () => this.isLoading = false
+    });
+  }
+
+  /* ================= VIEW CART ================= */
+
+  viewCart(id: number): void {
+    this.cartService.getById(id).subscribe(cart => {
+      this.selectedCart = cart;
+    });
+  }
+
+  /* ================= DELETE CART ================= */
+
+  deleteCart(id: number): void {
+    this.cartService.delete(id).subscribe(() => {
+      this.loadCarts();
+      if (this.selectedCart?.id === id) {
+        this.selectedCart = null;
       }
     });
   }
 
-  //  View single cart
-  viewCart(id: number) {
-    this.cartService.getById(id).subscribe(res => {
-      this.selectedCart = res;
-    });
+  /* ================= QUANTITY ================= */
+
+  increase(p: any): void {
+    p.quantity++;
+    this.updateBackendCart();
   }
 
-  //  Add a new cart
-  addCart() {
-    const newCart = {
-      userId: 5,
-      date: new Date().toISOString().split('T')[0],
-      products: [
-        { productId: 1, quantity: 3 },
-        { productId: 2, quantity: 2 }
-      ]
+  decrease(p: any): void {
+    if (p.quantity > 1) {
+      p.quantity--;
+      this.updateBackendCart();
+    }
+  }
+
+  /* ================= SYNC ================= */
+
+  private updateBackendCart(): void {
+    if (!this.selectedCart) return;
+
+    this.isUpdating = true;
+
+    const payload = {
+      userId: this.selectedCart.userId,
+      date: this.selectedCart.date,
+      products: this.selectedCart.products
     };
-    this.cartService.add(newCart).subscribe(res => {
-      console.log('Cart added:', res);
-      this.loadCarts();
-    });
-  }
 
-  //  Update cart
-  updateCart(id: number) {
-    const updatedCart = {
-      userId: 5,
-      date: new Date().toISOString().split('T')[0],
-      products: [{ productId: 1, quantity: 1 }]
-    };
-    this.cartService.update(id, updatedCart).subscribe(res => {
-      console.log('Cart updated:', res);
-      this.loadCarts();
-    });
-  }
-
-  //  Delete cart
-  deleteCart(id: number) {
-    this.cartService.delete(id).subscribe(res => {
-      console.log('Cart deleted:', res);
-      this.loadCarts();
+    this.cartService.update(this.selectedCart.id, payload).subscribe({
+      next: () => this.isUpdating = false,
+      error: () => this.isUpdating = false
     });
   }
 }

@@ -2,99 +2,98 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../services/product.service';
 import { SharedService } from '../services/shared.service';
+import { CartService } from '../services/cart.service';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,NavbarComponent,RouterOutlet],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+
   products: any[] = [];
   filteredProducts: any[] = [];
 
   constructor(
     private productService: ProductService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
     this.loadProducts();
 
-    //  Listen for category selection from Navbar
-    this.sharedService.categorySelected$.subscribe(category => {
+    // Listen to category changes
+    this.sharedService.category$.subscribe(category => {
       this.applyCategoryFilter(category);
     });
+    
+
+    // Listen to search changes
+    this.sharedService.search$.subscribe(search => {
+      this.applySearch(search);
+    });
   }
 
-  //  Load all products
+  /* ================= LOAD PRODUCTS ================= */
+
   loadProducts(): void {
     this.productService.getAll().subscribe({
-      next: (data) => {
-        this.products = data;
-        this.filteredProducts = data;
+      next: (data: any[]) => {
+        this.products = data.map(p => ({
+          ...p,
+          quantity: 1
+        }));
+        this.filteredProducts = [...this.products];
       },
-      error: (err) => console.error('Error loading products:', err)
+      error: err => console.error(err),
     });
   }
 
-  // Filter products by category
-  private applyCategoryFilter(category: string): void {
-    this.filteredProducts =
-      category === 'all' || !category
-        ? this.products
-        : this.products.filter(
-            p =>
-              p.category?.toLowerCase().trim() ===
-              category.toLowerCase().trim()
-          );
+  /* ================= FILTER ================= */
+
+  private applyCategoryFilter(category: string | null): void {
+    if (!category) {
+      this.filteredProducts = [...this.products];
+      return;
+    }
+
+    this.filteredProducts = this.products.filter(p =>
+      p.category?.toLowerCase() === category.toLowerCase()
+    );
   }
 
-  //  Add a new product
-  addProduct(): void {
-    const newProduct = {
-      title: 'New Demo Product',
-      price: 49.99,
-      description: 'A test product added for demo.',
-      image: 'https://picsum.photos/200',
-      category: 'electronics'
-    };
+  private applySearch(search: string): void {
+    if (!search) {
+      this.filteredProducts = [...this.products];
+      return;
+    }
 
-    this.productService.add(newProduct).subscribe({
-      next: () => {
-        console.log('✅ Product added successfully!');
-        this.loadProducts();
-      },
-      error: (err) => console.error('Error adding product:', err)
-    });
+    this.filteredProducts = this.products.filter(p =>
+      p.title?.toLowerCase().includes(search.toLowerCase())
+    );
   }
 
-  //  Update an existing product
-  updateProduct(id: number): void {
-    const updatedData = { title: 'Updated Product Title' };
+  /* ================= QUANTITY ================= */
 
-    this.productService.update(id, updatedData).subscribe({
-      next: () => {
-        console.log('✏️ Product updated successfully!');
-        this.loadProducts();
-      },
-      error: (err) => console.error('Error updating product:', err)
-    });
+  increaseQty(p: any): void {
+    p.quantity++;
   }
 
-  //  Delete a product
-  deleteProduct(id: number): void {
-    this.productService.delete(id).subscribe({
-      next: () => {
-        console.log('🗑️ Product deleted successfully!');
-        this.loadProducts();
-      },
-      error: (err) => console.error('Error deleting product:', err)
-    });
+  decreaseQty(p: any): void {
+    if (p.quantity > 1) {
+      p.quantity--;
+    }
   }
 
-  addNum(a:number,b:number){
-    return a+b;
+  /* ================= ADD TO CART ================= */
+
+  addToCart(product: any): void {
+    this.cartService.addToUiCart(product);
+    console.log('🛒 Added to cart:', product);
   }
 }
