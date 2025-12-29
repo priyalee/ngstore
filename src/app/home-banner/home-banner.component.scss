@@ -1,0 +1,64 @@
+/* ===============================
+   HOME BANNER
+================================ */
+.home-banner {
+  display: block;
+  width: 100%;
+  height: auto;              /* natural scaling */
+  margin-top: 64px;          /* height of navbar */
+  object-fit: contain;       /* show full image without cropping */
+  object-position: top center; /* top-centered for better view */
+  position: relative;
+  z-index: 0;
+  transition: filter 0.3s ease;
+}
+
+/* Dark mode filter */
+body.bg-dark .home-banner {
+  filter: brightness(0.6);
+}
+
+/* Optional overlay */
+.home-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 1;
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+/* ===============================
+   RESPONSIVE DESIGN
+================================ */
+@media (max-width: 1366px) {
+  .home-banner {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 992px) {
+  .home-banner {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .home-banner {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* ===============================
+   SCROLLING SETUP
+================================ */
+html, body {
+  height: auto;           /* allow page to grow with content */
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;       /* allows scrolling */
+}

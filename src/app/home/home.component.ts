@@ -34,9 +34,11 @@ export class HomeComponent implements OnInit {
     
 
     // Listen to search changes
-    this.sharedService.search$.subscribe(search => {
-      this.applySearch(search);
-    });
+     this.sharedService.search$.subscribe(query => {
+    this.filteredProducts = this.products.filter(p =>
+      p.name.toLowerCase().includes(query.toLowerCase())
+    );
+  });
   }
 
   /* ================= LOAD PRODUCTS ================= */

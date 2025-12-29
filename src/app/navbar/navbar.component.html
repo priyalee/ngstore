@@ -1,6 +1,5 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg px-4 shadow-sm"
-  [ngClass]="{'bg-light': !isDarkMode, 'bg-dark navbar-dark': isDarkMode}">
+<nav class="navbar navbar-expand-lg shadow-sm" [ngClass]="{'bg-light': !isDarkMode, 'bg-dark navbar-dark': isDarkMode}">
   <div class="container-fluid align-items-center justify-content-between">
 
     <!-- Logo -->
@@ -19,7 +18,6 @@
       <!-- Location Select -->
       <div class="location-select me-3">
         <i class="fa-solid fa-location-dot location-icon"></i>
-
         <select class="form-select form-select-sm location-dropdown" (change)="setLocation($any($event.target).value)">
           <option disabled selected>Select location</option>
           <option value="Bangalore, India">Bangalore, India</option>
@@ -28,34 +26,20 @@
         </select>
       </div>
 
-
       <!-- Navbar Links -->
       <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/home">Home</a>
-        </li>
-
-        <!-- Product Categories -->
+        <li class="nav-item"><a class="nav-link" routerLink="/home-banner">Home</a></li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Products</a>
           <ul class="dropdown-menu">
             <li *ngFor="let c of categories">
-              <a class="dropdown-item" (click)="filterByCategory(c); $event.preventDefault()">
-                {{ c }}
-              </a>
+              <a class="dropdown-item" (click)="filterByCategory(c); $event.preventDefault()">{{ c }}</a>
             </li>
           </ul>
         </li>
-
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/shop">Shop</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/about">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/contact">Contact</a>
-        </li>
+        <li class="nav-item"><a class="nav-link" routerLink="/shop">Shop</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/about">About</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/contact">Contact</a></li>
       </ul>
 
       <!-- Search -->
@@ -68,35 +52,92 @@
         </div>
       </form>
 
-      <!-- Language + Theme Toggle -->
+      <!-- Language Selector + Dark Mode -->
       <div class="d-flex align-items-center me-4 gap-3">
-        <select class="form-select form-select-sm w-auto">
-          <option selected>EN</option>
-          <option>हिंदी</option>
-          <option>Español</option>
-          <option>Français</option>
-        </select>
-        <button class="btn btn-outline-secondary btn-sm" (click)="toggleTheme()">
-          D
-        </button>
+
+        <!-- Fake select box -->
+        <div class="fake-select-box" (click)="openLanguageModal()">
+  <i class="fa-solid fa-globe me-1"></i>
+
+  <span class="lang-text">
+    {{ getLanguageLabel(selectedLanguage) }}
+  </span>
+
+  <i class="fa-solid fa-chevron-down ms-2"></i>
+</div>
+
+
+
+      <!-- Dark mode toggle -->
+<button class="btn btn-outline-secondary btn-sm" (click)="toggleTheme()">
+  <i [ngClass]="isDarkMode ? 'fa-regular fa-sun' : 'fa-sharp fa-solid fa-moon'"></i>
+</button>
+
+<!-- User + Cart -->
+<div class="d-flex align-items-center gap-3">
+
+  <a routerLink="/signin" class="btn btn-primary btn-sm fw-semibold">
+    Sign In
+  </a>
+
+  <a routerLink="/user" class="nav-action-btn">
+    Returns & <br /><b>Orders</b>
+  </a>
+
+  <a routerLink="/cart" class="btn btn-outline-danger btn-sm position-relative">
+    <i class="fa-solid fa-cart-shopping me-1"></i>
+    Cart
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+      {{ carts.length || 0 }}
+    </span>
+  </a>
+
+  <a routerLink="/user" class="btn btn-outline-secondary btn-sm" title="Account">
+    <i class="fa-solid fa-user"></i>
+  </a>
+
+</div>
+
+<!-- </nav> -->
+
+<!-- Language Modal -->
+<div class="modal fade" id="languageModal" tabindex="-1" aria-labelledby="languageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content language-modal">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="languageModalLabel">Language Settings</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
-      <!-- User + Cart -->
-      <div class="d-flex align-items-center gap-3">
-        <a routerLink="/signin" class="btn btn-primary btn-sm fw-semibold">Sign In</a>
-        <a routerLink="/user" class="btn btn-outline-secondary btn-sm">Account</a>
-        <a routerLink="/user" class="nav-action-btn"> Returns & <br /><b>Orders</b></a>
+      <!-- Body -->
+      <div class="modal-body">
+        <p class="modal-description">
+          Select the language you prefer for browsing, shopping and communications.
+        </p>
 
-        <a routerLink="/cart" class="btn btn-outline-danger btn-sm position-relative">
-          Cart
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            {{ carts.length || 0 }}
-          </span>
-        </a>
+        <div class="language-options">
+          <div class="form-check language-row" *ngFor="let lang of languages" (click)="selectedLanguage = lang.value">
+            <input class="form-check-input" type="radio" name="language" [value]="lang.value"
+              [(ngModel)]="selectedLanguage" id="{{lang.value}}">
+            <label class="form-check-label" for="{{lang.value}}">
+              {{ lang.label }} - {{ lang.value }}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="saveLanguage()">
+          Save Changes
+        </button>
       </div>
 
     </div>
   </div>
-</nav>
+</div>
 
 <router-outlet></router-outlet>

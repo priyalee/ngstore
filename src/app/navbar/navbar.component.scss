@@ -1,6 +1,4 @@
-/* ===============================
-   NAVBAR BASE
-================================ */
+//  NAVBAR BASE
 .navbar {
   min-height: 72px;
   padding-top: 0.4rem;
@@ -22,10 +20,7 @@
   }
 }
 
-
-/* ===============================
-   LOGO
-================================ */
+//  LOGO
 .navbar-brand {
   img {
     object-fit: contain;
@@ -37,23 +32,33 @@
   }
 }
 
-/* ===============================
-   LOCATION SELECT (NAVBAR)
-================================ */
+//  LOCATION SELECT (NAVBAR)
 .location-select {
   position: relative;
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.25rem 0.65rem;
+  padding: 0.25rem 0.7rem;
   border-radius: 999px;
   background-color: #f8f9fa;
   border: 1px solid #dee2e6;
   cursor: pointer;
   transition: all 0.25s ease;
+  min-width: 180px;
 
   &:hover {
     background-color: #f1f3f5;
+    border-color: #0d6efd;
+  }
+
+  /* Custom arrow */
+  &::after {
+    content: "▾";
+    position: absolute;
+    right: 0.65rem;
+    font-size: 0.7rem;
+    color: #6c757d;
+    pointer-events: none;
   }
 }
 
@@ -64,16 +69,17 @@
   pointer-events: none;
 }
 
-/* Select dropdown */
+/* Dropdown */
 .location-dropdown {
-  appearance: none; /* remove native arrow */
+  appearance: none;
   border: none;
   background: transparent;
   font-size: 0.8rem;
   font-weight: 500;
-  padding-right: 1.2rem;
   cursor: pointer;
-  min-width: 140px;
+  padding-right: 1.2rem;
+  min-width: 130px;
+  color: #212529;
 
   &:focus {
     outline: none;
@@ -81,16 +87,39 @@
   }
 }
 
-/* Custom dropdown arrow */
-.location-select::after {
-  content: "▾";
-  position: absolute;
-  right: 0.6rem;
-  font-size: 0.7rem;
-  color: #6c757d;
-  pointer-events: none;
+//  DARK MODE
+body.dark-mode {
+  .location-select {
+    background-color: #1e1e1e;
+    border-color: #374151;
+
+    &:hover {
+      background-color: #252525;
+      border-color: #60a5fa;
+    }
+
+    &::after {
+      color: #9ca3af;
+    }
+  }
+
+  .location-icon {
+    color: #fb7185;
+  }
+
+  .location-dropdown {
+    color: #e5e7eb;
+  }
 }
 
+//  MOBILE FIX
+@media (max-width: 768px) {
+  .location-select {
+    min-width: 100%;
+  }
+}
+
+//  NAV ACTION BUTTON (Returns & Orders)
 .nav-action-btn {
   display: inline-flex;
   flex-direction: column;
@@ -113,11 +142,25 @@
   }
 }
 
-/* ===============================
-   DARK MODE SUPPORT (CLEAN)
-================================ */
+/* Dark mode nav action */
+body.dark-mode .nav-action-btn {
+  color: #e5e7eb;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+}
+
+//  SEARCH BUTTON TWEAK
+.input-group .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.7rem;
+}
+
+//  DARK MODE SUPPORT (CLEAN)
 .navbar-dark {
- 
   border-bottom: 1px solid rgba(13, 110, 253, 0.35);
   /* NAV LINKS */
   .nav-link {
@@ -139,8 +182,16 @@
     }
   }
 
+  /* Default (Light Mode) */
   .location-dropdown {
     color: #5e5d5d;
+  }
+
+  /* Dark Mode Override */
+  body.dark-mode {
+    .location-dropdown {
+      color: #3e3f41; /* light gray for dark background */
+    }
   }
 
   .location-select::after {
@@ -174,7 +225,7 @@
   }
 
   .dropdown-item {
-    color: #e5e7eb;
+    color: #454546;
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.08);
@@ -183,9 +234,7 @@
   }
 }
 
-/* ===============================
-   DARK MODE NAVBAR HIGHLIGHT
-================================ */
+//  DARK MODE NAVBAR HIGHLIGHT
 .navbar-dark {
   background-color: #141416;
 
@@ -205,11 +254,7 @@
   }
 }
 
-
-
-/* ===============================
-   NAV LINKS
-================================ */
+//  NAV LINKS
 .navbar-nav {
   gap: 0.4rem;
 
@@ -238,10 +283,7 @@
   box-shadow: inset 0 -2px 0 #0d6efd;
 }
 
-
-/* ===============================
-   SEARCH BAR
-================================ */
+//  SEARCH BAR
 .input-group {
   max-width: 260px;
 
@@ -249,6 +291,8 @@
     border-radius: 999px 0 0 999px;
     font-size: 0.85rem;
     border-right: none;
+    background-color: #fff;
+    color: #212529;
 
     &:focus {
       box-shadow: none;
@@ -256,16 +300,55 @@
     }
   }
 
+  button.btn-outline-secondary i {
+    font-size: 0.85rem;
+    color: #212529;
+  }
+
   .btn {
     border-radius: 0 999px 999px 0;
     padding: 0 0.9rem;
     font-size: 0.85rem;
+    background-color: #e9ecef;
+    color: #212529;
+
+    &:hover {
+      background-color: #dee2e6;
+    }
   }
 }
 
-/* ===============================
-   LANGUAGE + THEME
-================================ */
+//  SEARCH BAR DARK MODE
+body.dark-mode {
+  .input-group {
+    .form-control {
+      background-color: #1e1e1e;
+      color: #e5e7eb;
+      border-color: #374151;
+
+      &:focus {
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 0.15rem rgba(96, 165, 250, 0.2);
+      }
+    }
+
+    button.btn-outline-secondary i {
+      color: #e5e7eb;
+    }
+
+    .btn {
+      background-color: #2c2c2c;
+      color: #e5e7eb;
+      border-color: #374151;
+
+      &:hover {
+        background-color: #3a3a3a;
+      }
+    }
+  }
+}
+
+//  LANGUAGE + THEME
 select.form-select {
   font-size: 0.75rem;
   border-radius: 999px;
@@ -281,9 +364,7 @@ button.btn-outline-secondary {
   justify-content: center;
 }
 
-/* ===============================
-   AUTH & CART
-================================ */
+//  AUTH & CART
 .btn {
   font-size: 0.8rem;
   border-radius: 999px;
@@ -308,27 +389,102 @@ button.btn-outline-secondary {
   }
 }
 
-/* ===============================
-   RESPONSIVE TWEAKS
-================================ */
-@media (max-width: 992px) {
+/* Navbar content wrapper */
+.navbar-content {
+  display: flex;
+  flex-wrap: nowrap;          // force single line
+  overflow-x: auto;           // enable horizontal scroll if content overflows
+  -webkit-overflow-scrolling: touch; // smooth scrolling on iOS
+  gap: 1rem;                  // spacing between items
+  align-items: center;
 
-  .navbar{
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+  /* hide scrollbar in WebKit browsers */
+  &::-webkit-scrollbar {
+    height: 6px;
   }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* Optional: add some padding on small screens */
+@media (max-width: 768px) {
+  .navbar-content {
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+
+//  RESPONSIVE TWEAKS
+@media (max-width: 992px) {
+  .navbar {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   .navbar-collapse {
     width: 100%;
-    padding-top: 1rem;
-    gap: 1rem;
+    padding: 0.75rem 0; /* optional: some vertical padding */
+    gap: 0;
     background-color: inherit;
   }
 
-  .input-group {
-    max-width: 100%;
+  .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+//  Fake Select Box
+.fake-select-box {
+  border: 1px solid #ced4da;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  background-color: #ffffff;
+  color: #212529;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    color 0.2s ease;
+
+  i {
+    font-size: 0.7rem;
+    opacity: 0.7;
   }
 
-  .navbar-nav {
-    align-items: flex-start;
+  /* Light mode hover */
+  &:hover {
+    background-color: #f8f9fa;
+    border-color: #0d6efd;
+  }
+}
+
+//  Dark Mode
+body.dark-mode {
+  .fake-select-box {
+    background-color: #1b1b1b;
+    color: #e5e7eb;
+    border-color: #374151;
+
+    i {
+      color: #9ca3af;
+    }
+
+    &:hover {
+      background-color: #252525;
+      border-color: #4f83ff;
+      color: #ffffff;
+    }
   }
 }
