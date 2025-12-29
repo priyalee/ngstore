@@ -1,20 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+
 import { ProductService } from '../services/product.service';
 import { SharedService } from '../services/shared.service';
 import { CartService } from '../services/cart.service';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule,NavbarComponent,RouterOutlet],
+  imports: [CommonModule, NavbarComponent, RouterOutlet],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
 
+  /* ================= NOTIFICATION ================= */
+  showNotificationPrompt: boolean = true;
+
+  /* ================= PRODUCTS ================= */
   products: any[] = [];
   filteredProducts: any[] = [];
 
@@ -25,20 +30,50 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.checkNotificationPermission();
     this.loadProducts();
 
-    // Listen to category changes
+    /* Category filter */
     this.sharedService.category$.subscribe(category => {
       this.applyCategoryFilter(category);
     });
-    
 
-    // Listen to search changes
-     this.sharedService.search$.subscribe(query => {
-    this.filteredProducts = this.products.filter(p =>
-      p.name.toLowerCase().includes(query.toLowerCase())
-    );
-  });
+    /* Search filter */
+    this.sharedService.search$.subscribe(query => {
+      this.applySearch(query);
+    });
+  }
+
+  /* ================= NOTIFICATION LOGIC ================= */
+
+  private checkNotificationPermission(): void {
+    if ('Notification' in window) {
+      const blocked = localStorage.getItem('notificationsBlocked');
+
+      if (
+        Notification.permission === 'granted' ||
+        Notification.permission === 'denied' ||
+        blocked
+      ) {
+        this.showNotificationPrompt = false;
+      }
+    }
+  }
+
+  allowNotifications(): void {
+    if ('Notification' in window) {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          new Notification('🛍️ Thanks for enabling ngStore notifications!');
+        }
+      });
+    }
+    this.showNotificationPrompt = false;
+  }
+
+  blockNotifications(): void {
+    localStorage.setItem('notificationsBlocked', 'true');
+    this.showNotificationPrompt = false;
   }
 
   /* ================= LOAD PRODUCTS ================= */
@@ -56,7 +91,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  /* ================= FILTER ================= */
+  /* ================= FILTERS ================= */
 
   private applyCategoryFilter(category: string | null): void {
     if (!category) {
@@ -76,7 +111,7 @@ export class HomeComponent implements OnInit {
     }
 
     this.filteredProducts = this.products.filter(p =>
-      p.title?.toLowerCase().includes(search.toLowerCase())
+      p.name?.toLowerCase().includes(search.toLowerCase())
     );
   }
 
@@ -87,9 +122,7 @@ export class HomeComponent implements OnInit {
   }
 
   decreaseQty(p: any): void {
-    if (p.quantity > 1) {
-      p.quantity--;
-    }
+    if (p.quantity > 1) p.quantity--;
   }
 
   /* ================= ADD TO CART ================= */
