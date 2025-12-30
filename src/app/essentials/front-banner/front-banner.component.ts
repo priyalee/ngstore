@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { NotificationService } from '../../services/notification.service';
-import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../../navbar/navbar.component';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-front-banner',
-  imports: [RouterOutlet,NavbarComponent,NgIf,CommonModule],
   standalone: true,
+  imports: [CommonModule, RouterOutlet, NavbarComponent],
   templateUrl: './front-banner.component.html',
   styleUrl: './front-banner.component.scss'
 })
@@ -23,18 +23,19 @@ export class FrontBannerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
     // Dark mode
     this.themeService.darkMode$.subscribe(isDark => {
       this.isDarkMode = isDark;
       document.body.classList.toggle('dark-mode', isDark);
     });
 
-    // Subscribe to prompt visibility
+    // Listen to notification state
     this.notificationService.showPrompt$.subscribe(show => {
       this.showNotificationPrompt = show;
     });
 
-    // Trigger on landing page
+    // TRIGGER ON LANDING
     this.notificationService.showPrompt();
   }
 

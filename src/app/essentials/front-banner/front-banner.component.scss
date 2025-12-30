@@ -48,59 +48,67 @@ body {
   overflow-x: hidden;
 }
 
-.notification-alert {
+.notification-popup {
   position: fixed;
   bottom: 24px;
   right: 24px;
 
+  width: 280px;
+  padding: 16px;
+
   background: #111827;
   color: #fff;
-  padding: 16px 18px;
-  border-radius: 12px;
 
-  z-index: 2147483647; /* 🔥 FORCE TOP LEVEL */
-  isolation: isolate; /* 🔥 BREAK stacking contexts */
+  border-radius: 14px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
 
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-  animation: slideUp 0.35s ease;
-
-  p {
-    margin: 0 0 10px;
-    font-size: 14px;
-  }
-
-  .actions {
-    display: flex;
-    gap: 10px;
-  }
-
-  button {
-    flex: 1;
-    border: none;
-    padding: 8px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-  }
-
-  .allow {
-    background: #22c55e;
-    color: #000;
-  }
-
-  .block {
-    background: #374151;
-    color: #fff;
-  }
+  z-index: 9999;
+  animation: fadeSlide 0.35s ease;
 }
 
-@keyframes slideUp {
+.notification-popup .title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.notification-popup .desc {
+  font-size: 13px;
+  color: #d1d5db;
+  margin-bottom: 12px;
+}
+
+.notification-popup .actions {
+  display: flex;
+  gap: 10px;
+}
+
+.notification-popup button {
+  flex: 1;
+  border: none;
+  padding: 7px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.notification-popup .allow {
+  background: #22c55e;
+  color: #000;
+}
+
+.notification-popup .block {
+  background: #374151;
+  color: #fff;
+}
+
+@keyframes fadeSlide {
   from {
-    transform: translateY(20px);
     opacity: 0;
+    transform: translateY(12px);
   }
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
 }

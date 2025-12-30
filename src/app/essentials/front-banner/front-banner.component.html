@@ -1,8 +1,12 @@
 <app-navbar></app-navbar>
 
-<!-- 🔔 REAL NOTIFICATION -->
-<div class="notification-alert" *ngIf="showNotificationPrompt">
-  <p>🔔 Enable notifications to get latest deals & updates</p>
+<!-- REAL NOTIFICATION -->
+ 
+<div class="notification-popup" *ngIf="showNotificationPrompt">
+  <p class="title">Enable Notifications</p>
+  <p class="desc">
+    Get alerts for deals, orders & updates.
+  </p>
 
   <div class="actions">
     <button class="allow" (click)="allowNotifications()">Allow</button>
