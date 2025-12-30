@@ -1,6 +1,4 @@
-/* ============================= */
-/* 🛍️ PRODUCT CARD */
-/* ============================= */
+/* PRODUCT CARD */
 
 .product-card {
   border-radius: 12px;
@@ -29,9 +27,7 @@
   object-fit: contain;
 }
 
-/* ============================= */
-/* 🖼️ PRODUCT IMAGE */
-/* ============================= */
+/*  PRODUCT IMAGE */
 
 .product-img-wrapper {
   padding: 1rem;
@@ -41,7 +37,6 @@
   justify-content: center;
   align-items: center;
   max-width: -webkit-fill-available;
-
 }
 
 .product-img {
@@ -52,16 +47,13 @@
 
 .product-grid-wrapper {
   display: flex;
-  flex-wrap: wrap;      // ensures products wrap to next line
+  flex-wrap: wrap; // ensures products wrap to next line
   justify-content: flex-start;
-  gap: 0.5rem;            // spacing between cards
+  gap: 0.5rem; // spacing between cards
   max-width: -webkit-fill-available;
 }
 
-
-/* ============================= */
-/* 💰 PRICE */
-/* ============================= */
+/* PRICE */
 
 .price-text {
   font-weight: 600;
@@ -69,9 +61,7 @@
   margin-bottom: 0.5rem;
 }
 
-/* ============================= */
-/* ➕ QUANTITY CONTROLS */
-/* ============================= */
+/* QUANTITY CONTROLS */
 
 .quantity-wrapper {
   display: flex;
@@ -124,19 +114,14 @@
   font-weight: 600;
 }
 
-
-/* ============================= */
-/* 🧮 TOTAL */
-/* ============================= */
+/* TOTAL */
 
 .total-price {
   font-weight: 600;
   color: #198754;
 }
 
-/* ============================= */
-/* 🛒 ADD TO CART BUTTON */
-/* ============================= */
+/*  ADD TO CART BUTTON */
 
 .add-cart-btn {
   background: linear-gradient(90deg, #0d6efd, #6610f2);
@@ -153,9 +138,7 @@
   box-shadow: 0 6px 18px rgba(13, 110, 253, 0.35);
 }
 
-/* ============================= */
-/* 🌙 DARK MODE SUPPORT */
-/* ============================= */
+/* DARK MODE SUPPORT */
 
 body.dark-mode {
   background-color: #121212;
@@ -194,4 +177,3 @@ body.dark-mode .add-cart-btn {
 body.dark-mode .add-cart-btn:hover {
   box-shadow: 0 6px 18px rgba(13, 110, 253, 0.5);
 }
-

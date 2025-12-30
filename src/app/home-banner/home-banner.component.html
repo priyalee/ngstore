@@ -1,21 +1,11 @@
 <app-navbar></app-navbar>
 
-<!-- 🔔 Notification Alert -->
-<div class="notification-alert" *ngIf="showNotificationPrompt">
-  <p>🛍️ ngStore wants to send you notifications</p>
-  <div class="buttons">
-    <button class="btn btn-primary btn-sm" (click)="allowNotifications()">Allow</button>
-    <button class="btn btn-outline-secondary btn-sm" (click)="blockNotifications()">Block</button>
-  </div>
-</div>
+<!-- Banner -->
+<img
+  [src]="isDarkMode ? 'assets/images/dark -banner-3.png' : 'assets/images/banner-3.png'"
+  alt="Home Banner"
+  class="home-banner"
+/>
 
-<!-- 🖼 Banner -->
-<div class="home-banner-wrapper">
-  <img
-    [src]="isDarkMode ? 'assets/images/dark banner 3.png' : 'assets/images/banner 3.png'"
-    alt="Home Banner"
-    class="home-banner"
-  />
-</div>
 
 <router-outlet></router-outlet>

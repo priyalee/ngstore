@@ -10,7 +10,7 @@ export class CartService {
 
   private apiUrl = 'https://fakestoreapi.com/carts';
 
-  /* ================= UI CART ================= */
+  /* UI CART */
 
   private uiCart: any[] = [];
   private uiCart$ = new BehaviorSubject<any[]>([]);
@@ -38,7 +38,7 @@ export class CartService {
     this.uiCart$.next([]);
   }
 
-  /* ================= API CART ================= */
+  /* API CART */
 
   getAll(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);

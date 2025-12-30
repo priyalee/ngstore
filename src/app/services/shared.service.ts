@@ -14,12 +14,12 @@ export class SharedService {
   private searchSubject = new BehaviorSubject<string>('');
   search$ = this.searchSubject.asObservable();
 
-  // ✅ Set selected category
+  //  Set selected category
   setCategory(category: string): void {
     this.categorySubject.next(category);
   }
 
-  // ✅ Set search text
+  // Set search text
   setSearch(query: string): void {
     this.searchSubject.next(query);
   }

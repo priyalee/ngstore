@@ -1,0 +1,19 @@
+<app-navbar></app-navbar>
+
+<!-- 🔔 REAL NOTIFICATION -->
+<div class="notification-alert" *ngIf="showNotificationPrompt">
+  <p>🔔 Enable notifications to get latest deals & updates</p>
+
+  <div class="actions">
+    <button class="allow" (click)="allowNotifications()">Allow</button>
+    <button class="block" (click)="blockNotifications()">No Thanks</button>
+  </div>
+</div>
+
+<img
+  [src]="isDarkMode ? 'assets/images/dark-f-b.png' : 'assets/images/light-f-b.png'"
+  alt="Front Banner"
+  class="front-banner"
+/>
+
+<router-outlet></router-outlet>

@@ -24,7 +24,7 @@ export class CartComponent implements OnInit {
     this.loadCarts();
   }
 
-  /* ================= LOAD CARTS ================= */
+  /* LOAD CARTS */
 
   loadCarts(): void {
     this.isLoading = true;
@@ -38,7 +38,7 @@ export class CartComponent implements OnInit {
     });
   }
 
-  /* ================= VIEW CART ================= */
+  /* VIEW CART */
 
   viewCart(id: number): void {
     this.cartService.getById(id).subscribe(cart => {
@@ -46,7 +46,7 @@ export class CartComponent implements OnInit {
     });
   }
 
-  /* ================= DELETE CART ================= */
+  /* DELETE CART */
 
   deleteCart(id: number): void {
     this.cartService.delete(id).subscribe(() => {
@@ -57,7 +57,7 @@ export class CartComponent implements OnInit {
     });
   }
 
-  /* ================= QUANTITY ================= */
+  /* QUANTITY */
 
   increase(p: any): void {
     p.quantity++;
@@ -71,7 +71,7 @@ export class CartComponent implements OnInit {
     }
   }
 
-  /* ================= SYNC ================= */
+  /* SYNC CART */
 
   private updateBackendCart(): void {
     if (!this.selectedCart) return;

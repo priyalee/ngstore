@@ -5,12 +5,20 @@ import { CartComponent } from './cart/cart.component';
 import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './user/user.component';
 import { HomeBannerComponent } from './home-banner/home-banner.component';
+import { AboutComponent } from './essentials/about/about.component';
+import { ContactComponent } from './essentials/contact/contact.component';
+import { ShopComponent } from './essentials/shop/shop.component';
+import { FrontBannerComponent } from './essentials/front-banner/front-banner.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'front-banner', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'cart', component: CartComponent },
   { path: 'signin', component: LoginComponent },
   { path: 'user', component:UsersComponent},
-  { path: 'home-banner', component: HomeBannerComponent }
+  { path: 'home-banner', component: HomeBannerComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'contact', component: ContactComponent },
+  { path: 'shop', component: ShopComponent },
+  { path: 'front-banner', component: FrontBannerComponent }
 ];

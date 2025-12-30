@@ -3,7 +3,7 @@
   <div class="container-fluid align-items-center justify-content-between">
 
     <!-- Logo -->
-    <a class="navbar-brand d-flex align-items-center" routerLink="/home">
+    <a class="navbar-brand d-flex align-items-center" routerLink="/front-banner">
       <img src="assets/images/ngstore logo.png" alt="logo" width="120" height="80" class="me-2" />
     </a>
 
@@ -15,22 +15,25 @@
     <!-- Navbar content -->
     <div class="collapse navbar-collapse" id="navbarNav">
 
-      <!-- Location Select -->
-      <div class="location-select me-3">
-        <i class="fa-solid fa-location-dot location-icon"></i>
-        <select class="form-select form-select-sm location-dropdown" (change)="setLocation($any($event.target).value)">
-          <option disabled selected>Select location</option>
-          <option value="Bangalore, India">Bangalore, India</option>
-          <option value="Gurugram, India">Gurugram, India</option>
-          <option value="Delhi, India">Delhi, India</option>
-        </select>
-      </div>
+      <!-- Location Select (Static, styled like real app) -->
+<div class="location-select me-3 d-flex align-items-center">
+  <i class="fa-solid fa-location-dot location-icon"></i>
+  <div class="location-dropdown-wrapper">
+    <select class="form-select form-select-sm location-dropdown">
+      <option disabled selected><i class="fa-solid fa-location-crosshairs"></i>Deliver to this location</option>
+      <option value="Bangalore, India">Bangalore, India</option>
+      <option value="Gurugram, India">Gurugram, India</option>
+      <option value="Delhi, India">Delhi, India</option>
+    </select>
+  </div>
+</div>
+
 
       <!-- Navbar Links -->
       <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
         <li class="nav-item"><a class="nav-link" routerLink="/home-banner">Home</a></li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Products</a>
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" routerLink="/home">Products</a>
           <ul class="dropdown-menu">
             <li *ngFor="let c of categories">
               <a class="dropdown-item" (click)="filterByCategory(c); $event.preventDefault()">{{ c }}</a>

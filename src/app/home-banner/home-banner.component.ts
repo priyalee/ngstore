@@ -19,29 +19,13 @@ export class HomeBannerComponent implements OnInit {
 
   constructor(
     private themeService: ThemeService,
-    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
     // Dark mode subscription
     this.themeService.darkMode$.subscribe(isDark => {
-      this.isDarkMode = isDark;
-    });
-
-    // Notification subscription
-    this.notificationService.showPrompt$.subscribe(show => {
-      this.showNotificationPrompt = show;
-    });
-
-    // Trigger alert whenever this component loads
-    this.notificationService.showPrompt();
-  }
-
-  allowNotifications(): void {
-    this.notificationService.allowNotifications();
-  }
-
-  blockNotifications(): void {
-    this.notificationService.blockNotifications();
+  this.isDarkMode = isDark;
+  document.body.classList.toggle('dark-mode', isDark);
+});
   }
 }

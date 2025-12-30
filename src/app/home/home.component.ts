@@ -15,11 +15,10 @@ import { NavbarComponent } from '../navbar/navbar.component';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-
-  /* ================= NOTIFICATION ================= */
+  /* NOTIFICATION */
   showNotificationPrompt: boolean = true;
 
-  /* ================= PRODUCTS ================= */
+  /* PRODUCTS */
   products: any[] = [];
   filteredProducts: any[] = [];
 
@@ -34,17 +33,17 @@ export class HomeComponent implements OnInit {
     this.loadProducts();
 
     /* Category filter */
-    this.sharedService.category$.subscribe(category => {
+    this.sharedService.category$.subscribe((category) => {
       this.applyCategoryFilter(category);
     });
 
     /* Search filter */
-    this.sharedService.search$.subscribe(query => {
+    this.sharedService.search$.subscribe((query) => {
       this.applySearch(query);
     });
   }
 
-  /* ================= NOTIFICATION LOGIC ================= */
+  /* NOTIFICATION LOGIC */
 
   private checkNotificationPermission(): void {
     if ('Notification' in window) {
@@ -62,7 +61,7 @@ export class HomeComponent implements OnInit {
 
   allowNotifications(): void {
     if ('Notification' in window) {
-      Notification.requestPermission().then(permission => {
+      Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
           new Notification('🛍️ Thanks for enabling ngStore notifications!');
         }
@@ -76,22 +75,22 @@ export class HomeComponent implements OnInit {
     this.showNotificationPrompt = false;
   }
 
-  /* ================= LOAD PRODUCTS ================= */
+  /* LOAD PRODUCTS */
 
   loadProducts(): void {
     this.productService.getAll().subscribe({
       next: (data: any[]) => {
-        this.products = data.map(p => ({
+        this.products = data.map((p) => ({
           ...p,
-          quantity: 1
+          quantity: 1,
         }));
         this.filteredProducts = [...this.products];
       },
-      error: err => console.error(err),
+      error: (err) => console.error(err),
     });
   }
 
-  /* ================= FILTERS ================= */
+  /* FILTERS */
 
   private applyCategoryFilter(category: string | null): void {
     if (!category) {
@@ -99,8 +98,8 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    this.filteredProducts = this.products.filter(p =>
-      p.category?.toLowerCase() === category.toLowerCase()
+    this.filteredProducts = this.products.filter(
+      (p) => p.category?.toLowerCase() === category.toLowerCase()
     );
   }
 
@@ -110,12 +109,12 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    this.filteredProducts = this.products.filter(p =>
+    this.filteredProducts = this.products.filter((p) =>
       p.name?.toLowerCase().includes(search.toLowerCase())
     );
   }
 
-  /* ================= QUANTITY ================= */
+  /* QUANTITY */
 
   increaseQty(p: any): void {
     p.quantity++;
@@ -125,7 +124,7 @@ export class HomeComponent implements OnInit {
     if (p.quantity > 1) p.quantity--;
   }
 
-  /* ================= ADD TO CART ================= */
+  /* ADD TO CART */
 
   addToCart(product: any): void {
     this.cartService.addToUiCart(product);
