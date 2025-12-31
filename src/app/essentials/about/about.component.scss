@@ -28,10 +28,28 @@ body.dark-mode .about-banner {
   filter: brightness(0.82);
 }
 
-/* RESPONSIVE */
+/* TABLET */
 @media (max-width: 992px) {
   .about-banner {
-    max-height: none;
+    margin-top: 50px; /* slightly smaller margin */
+    max-height: calc(100vh - 50px);
     object-fit: contain;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 576px) {
+
+  body {
+    overflow: hidden;
+  }
+
+  .about-banner {
+    margin-top: 48px;  
+    height: calc(100vh - 48px);
+    max-height: calc(100vh - 48px);
+    width: 100%;
+    object-fit: contain;
+    transform: none !important;
   }
 }

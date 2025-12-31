@@ -1,20 +1,18 @@
+/* SHOP BANNER BASE (DESKTOP) */
 .shop-banner {
   display: block;
   width: 100%;
   height: auto;
-  max-height: calc(100vh - 64px);
   margin-top: 64px;
+
   object-fit: contain;
   object-position: center;
+
   cursor: pointer;
   transition: transform 0.35s ease, filter 0.35s ease;
 
   &:hover {
     transform: scale(1.02);
-  }
-
-  &::before {
-    display: none;
   }
 }
 
@@ -28,10 +26,29 @@ body.dark-mode .shop-banner {
   filter: brightness(0.82);
 }
 
-/* RESPONSIVE */
+/* TABLET */
 @media (max-width: 992px) {
   .shop-banner {
-    max-height: none;
+    margin-top: 56px;
+    max-height: calc(100vh - 56px);
     object-fit: contain;
+    transform: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+/*MOBILE SCREENS*/
+@media (max-width: 576px) {
+  .shop-banner {
+    margin-top: 56px;
+    height: calc(100vh - 56px);
+    max-height: calc(100vh - 56px);
+    width: 100%;
+
+    object-fit: contain;
+    transform: none !important;
   }
 }

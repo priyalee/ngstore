@@ -1,14 +1,12 @@
-/* ================= ORDER BANNER BASE ================= */
+/* ORDER BANNER BASE */
 .order-banner {
   display: block;
   width: 100%;
   height: auto;
   max-height: calc(100vh - 64px);
   margin-top: 64px;
-
   object-fit: contain;
   object-position: center;
-
   cursor: pointer;
   transition: transform 0.35s ease, filter 0.35s ease, box-shadow 0.35s ease;
 
@@ -17,39 +15,51 @@
   }
 }
 
-/* ================= LIGHT MODE ================= */
-body:not(.dark-mode) {
-  .order-banner {
-    filter: none;
-    background-color: #ffffff;
+/* LIGHT MODE */
+body:not(.dark-mode) .order-banner {
+  filter: none;
+  background-color: #ffffff;
 
-    &:hover {
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    }
+  &:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   }
 }
 
-/* ================= DARK MODE ================= */
-body.dark-mode {
-  .order-banner {
-    background-color: #121212;
-    filter: brightness(0.85) contrast(1.05);
+/* DARK MODE */
+body.dark-mode .order-banner {
+  background-color: #121212;
+  filter: brightness(0.85) contrast(1.05);
 
-    &:hover {
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
-    }
+  &:hover {
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
   }
 }
 
-/* ================= RESPONSIVE ================= */
+/* TABLET */
 @media (max-width: 992px) {
   .order-banner {
-    max-height: none;
-    margin-top: 56px;
+    margin-top: 50px;
+    max-height: calc(100vh - 50px);
     transform: none;
 
     &:hover {
       transform: none;
     }
+  }
+}
+
+/* MOBILE */
+@media (max-width: 576px) {
+  body {
+    overflow: hidden;
+  }
+
+  .order-banner {
+    margin-top: 48px;
+    height: calc(100vh - 48px);
+    max-height: calc(100vh - 48px);
+    width: 100%;
+    object-fit: contain;
+    transform: none !important;
   }
 }

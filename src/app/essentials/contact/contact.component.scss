@@ -18,20 +18,38 @@
   }
 }
 
-/* LIGHT MODE */
+/* ================= LIGHT MODE ================= */
 body:not(.dark-mode) .contact-banner {
   filter: none;
 }
 
-/* DARK MODE */
+/* ================= DARK MODE ================= */
 body.dark-mode .contact-banner {
   filter: brightness(0.82);
 }
 
-/* RESPONSIVE */
+/* ================= TABLET ================= */
 @media (max-width: 992px) {
   .contact-banner {
-    max-height: none;
+    margin-top: 50px;
+    max-height: calc(100vh - 50px);
     object-fit: contain;
+  }
+}
+
+/* ================= MOBILE (NO SCROLL) ================= */
+@media (max-width: 576px) {
+  /* 🔒 LOCK PAGE SCROLL */
+  body {
+    overflow: hidden;
+  }
+
+  .contact-banner {
+    margin-top: 48px;  /* slightly smaller for more space */
+    height: calc(100vh - 48px);   /* full fit */
+    max-height: calc(100vh - 48px);
+    width: 100%;
+    object-fit: contain;
+    transform: none !important;
   }
 }
