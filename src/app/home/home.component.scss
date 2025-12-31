@@ -177,3 +177,25 @@ body.dark-mode .add-cart-btn {
 body.dark-mode .add-cart-btn:hover {
   box-shadow: 0 6px 18px rgba(13, 110, 253, 0.5);
 }
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center;
+  margin-top: 3rem;
+  padding: 1rem;
+
+  p {
+    font-size: 1rem;
+    color: #6b7280; 
+    margin: 0;
+  }
+}
+
+/* DARK MODE */
+body.dark-mode {
+  .empty-state {
+    p {
+      color: #d1d5db; 
+    }
+  }
+}

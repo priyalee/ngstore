@@ -12,12 +12,11 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule,FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-
   categories: string[] = [];
   carts: any[] = [];
   currentLocation = 'Select Location';
@@ -50,7 +49,7 @@ export class NavbarComponent implements OnInit {
     this.loadCarts();
 
     // Subscribe to dark mode changes
-    this.themeService.darkMode$.subscribe(isDark => {
+    this.themeService.darkMode$.subscribe((isDark) => {
       this.isDarkMode = isDark;
       document.body.classList.toggle('bg-dark', this.isDarkMode);
       document.body.classList.toggle('text-white', this.isDarkMode);
@@ -60,16 +59,18 @@ export class NavbarComponent implements OnInit {
   loadCategories(): void {
     this.productService.getAll().subscribe({
       next: (data) => {
-        this.categories = Array.from(new Set(data.map((p: any) => p.category))).filter(Boolean);
+        this.categories = Array.from(
+          new Set(data.map((p: any) => p.category))
+        ).filter(Boolean);
       },
-      error: err => console.error(err)
+      error: (err) => console.error(err),
     });
   }
 
   loadCarts(): void {
     this.cartService.getAll().subscribe({
-      next: res => (this.carts = res),
-      error: err => console.error(err)
+      next: (res) => (this.carts = res),
+      error: (err) => console.error(err),
     });
   }
 
@@ -88,9 +89,8 @@ export class NavbarComponent implements OnInit {
     this.currentLocation = location;
   }
 
-  onSearch(query: string): void {
+  onSearch(): void {
     const value = this.searchQuery.trim();
-    if (!value) return;
     this.sharedService.setSearch(value);
   }
 
@@ -98,19 +98,20 @@ export class NavbarComponent implements OnInit {
     this.selectedLanguage = lang;
     console.log('Language changed to:', lang);
   }
-  
+
   getLanguageLabel(value: string): string {
-  const lang = this.languages.find(l => l.value === value);
-  return lang ? lang.label : 'Choose Language';
+    const lang = this.languages.find((l) => l.value === value);
+    return lang ? lang.label : 'Choose Language';
+  }
+
+  openLanguageModal() {
+    const modalEl = document.getElementById('languageModal');
+    if (!modalEl) return;
+    const modal = new bootstrap.Modal(modalEl);
+    modal.show();
+  }
+  saveLanguage() {
+    console.log('Selected language:', this.selectedLanguage);
+  }
 }
 
-openLanguageModal() {
-  const modalEl = document.getElementById('languageModal');
-  if (!modalEl) return;
-  const modal = new bootstrap.Modal(modalEl);
-  modal.show();
-}
-saveLanguage() {
-  console.log('Selected language:', this.selectedLanguage);
-}
-}

@@ -8,66 +8,19 @@
   </div>
 
   <!-- Cart List -->
-  <div *ngIf="!isLoading && carts.length > 0"
-       class="row row-cols-1 row-cols-md-3 g-4">
-
+  <div *ngIf="!isLoading && carts.length > 0" class="row row-cols-1 row-cols-md-3 g-4">
     <div class="col" *ngFor="let c of carts">
-      <div class="card shadow-sm">
+      <div class="cart-card shadow-sm">
         <div class="card-body text-center">
-          <h5 class="text-primary fw-bold">Cart ID: {{ c.id }}</h5>
+          <h5 class="card-title">Cart ID: {{ c.id }}</h5>
           <p>User ID: {{ c.userId }}</p>
           <p class="text-muted">{{ c.date | date:'mediumDate' }}</p>
 
-          <button
-            class="btn btn-outline-primary btn-sm"
-            (click)="viewCart(c.id)">
-            View
-          </button>
-
-          <button
-            class="btn btn-outline-danger btn-sm ms-2"
-            (click)="deleteCart(c.id)">
-            Delete
-          </button>
+          <button class="btn btn-primary btn-sm" (click)="viewCart(c)">View</button>
+          <button class="btn btn-danger btn-sm ms-2" (click)="deleteCart(c.id)">Delete</button>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Selected Cart -->
-  <div *ngIf="selectedCart" class="mt-5">
-    <h4 class="text-center">🧾 Cart #{{ selectedCart.id }} Details</h4>
-
-    <ul class="list-group mt-3 shadow-sm">
-      <li *ngFor="let p of selectedCart.products"
-          class="list-group-item d-flex justify-content-between align-items-center">
-
-        <span>
-          <strong>Product ID:</strong> {{ p.productId }}
-        </span>
-
-        <div class="d-flex align-items-center">
-          <button
-            class="btn btn-outline-secondary btn-sm"
-            (click)="decrease(p)"
-            [disabled]="p.quantity === 1 || isUpdating">
-          </button>
-
-          <span class="mx-3 fw-bold">{{ p.quantity }}</span>
-
-          <button
-            class="btn btn-outline-secondary btn-sm"
-            (click)="increase(p)"
-            [disabled]="isUpdating">
-            +
-          </button>
-        </div>
-      </li>
-    </ul>
-
-    <p *ngIf="isUpdating" class="text-center text-muted mt-2">
-      Updating cart...
-    </p>
   </div>
 
   <!-- Empty State -->
@@ -76,3 +29,35 @@
   </div>
 </div>
 
+<!-- Cart Details Modal -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">🧾 Cart #{{ selectedCart?.id }} Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <ul class="list-group">
+          <li *ngFor="let p of selectedCart?.products" class="list-group-item d-flex justify-content-between align-items-center">
+            <span>
+              <strong>Product ID:</strong> {{ p.productId }}
+            </span>
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-outline-secondary btn-sm" (click)="decrease(p)" [disabled]="p.quantity === 1 || isUpdating">-</button>
+              <span class="fw-bold">{{ p.quantity }}</span>
+              <button class="btn btn-outline-secondary btn-sm" (click)="increase(p)" [disabled]="isUpdating">+</button>
+            </div>
+          </li>
+        </ul>
+
+        <p *ngIf="isUpdating" class="text-center text-muted mt-2">Updating cart...</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

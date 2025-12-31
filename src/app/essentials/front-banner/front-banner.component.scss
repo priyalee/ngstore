@@ -1,4 +1,4 @@
-/*FRONT / front BANNER */
+/* FRONT BANNER */
 
 .front-banner {
   display: block;
@@ -48,6 +48,8 @@ body {
   overflow-x: hidden;
 }
 
+/* NOTIFICATION ALERT */
+
 .notification-popup {
   position: fixed;
   bottom: 24px;
@@ -64,6 +66,17 @@ body {
 
   z-index: 9999;
   animation: fadeSlide 0.35s ease;
+
+  /* Smooth hover transition */
+  transition: 
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Hover interaction */
+.notification-popup:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.65);
 }
 
 .notification-popup .title {
@@ -90,6 +103,12 @@ body {
   border-radius: 8px;
   font-size: 13px;
   cursor: pointer;
+
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.notification-popup button:hover {
+  transform: translateY(-1px);
 }
 
 .notification-popup .allow {
