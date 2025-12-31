@@ -1,4 +1,3 @@
-/* SHOP BANNER BASE */
 .shop-banner {
   display: block;
   width: 100%;
@@ -29,36 +28,10 @@ body.dark-mode .shop-banner {
   filter: brightness(0.82);
 }
 
-/* TABLET */
+/* RESPONSIVE */
 @media (max-width: 992px) {
   .shop-banner {
-    margin-top: 56px;
-    max-height: calc(100vh - 56px);
+    max-height: none;
     object-fit: contain;
-    transform: none;
-
-    &:hover {
-      transform: none;
-    }
-  }
-}
-
-/* MOBILE — ZERO SCROLL */
-@media (max-width: 576px) {
-
-  /* 🔒 LOCK PAGE SCROLL */
-  html,
-  body {
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .shop-banner {
-    margin-top: 56px;
-    height: 100svh;               
-    max-height: 100svh;
-    width: 100%;
-    object-fit: contain;
-    transform: none !important;   /* disable hover scaling */
   }
 }

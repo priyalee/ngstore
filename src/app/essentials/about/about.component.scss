@@ -12,40 +12,26 @@
   &:hover {
     transform: scale(1.02);
   }
+
+  &::before {
+    display: none;
+  }
 }
 
-/* ================= LIGHT MODE ================= */
+/* LIGHT MODE */
 body:not(.dark-mode) .about-banner {
   filter: none;
 }
 
-/* ================= DARK MODE ================= */
+/* DARK MODE */
 body.dark-mode .about-banner {
   filter: brightness(0.82);
 }
 
-/* ================= TABLET ================= */
+/* RESPONSIVE */
 @media (max-width: 992px) {
   .about-banner {
-    margin-top: 56px;
-    max-height: calc(100vh - 56px);
-  }
-}
-
-/* ================= MOBILE (NO SCROLL GUARANTEE) ================= */
-@media (max-width: 576px) {
-
-  /* 🔒 LOCK PAGE SCROLL */
-  body {
-    overflow: hidden;
-  }
-
-  .about-banner {
-    margin-top: 56px;
-    height: calc(100vh - 56px);   /* EXACT FIT */
-    max-height: calc(100vh - 56px);
-    width: 100%;
+    max-height: none;
     object-fit: contain;
-    transform: none !important;
   }
 }

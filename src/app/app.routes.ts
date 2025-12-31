@@ -9,7 +9,6 @@ import { AboutComponent } from './essentials/about/about.component';
 import { ContactComponent } from './essentials/contact/contact.component';
 import { ShopComponent } from './essentials/shop/shop.component';
 import { FrontBannerComponent } from './essentials/front-banner/front-banner.component';
-import { OrderComponent } from './essentials/order/order.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'front-banner', pathMatch: 'full' },
@@ -21,6 +20,5 @@ export const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'shop', component: ShopComponent },
-  { path: 'front-banner', component: FrontBannerComponent },
-  { path: 'order', component: OrderComponent }
+  { path: 'front-banner', component: FrontBannerComponent }
 ];

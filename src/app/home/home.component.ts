@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 
 import { ProductService } from '../services/product.service';
 import { SharedService } from '../services/shared.service';
@@ -11,21 +10,17 @@ import { NavbarComponent } from '../navbar/navbar.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, RouterOutlet],
+  imports: [CommonModule, NavbarComponent, RouterOutlet],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   /* NOTIFICATION */
-  showNotificationPrompt = true;
+  showNotificationPrompt: boolean = true;
 
   /* PRODUCTS */
   products: any[] = [];
   filteredProducts: any[] = [];
-
-  /* FILTER STATE */
-  searchText: string = '';
-  selectedCategory: string | null = null;
 
   constructor(
     private productService: ProductService,
@@ -34,48 +29,103 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Load all products
+    this.checkNotificationPermission();
     this.loadProducts();
 
-    // Subscribe to category changes
-    this.sharedService.category$.subscribe(category => {
-      this.selectedCategory = category;
-      this.applyFilters();
+    /* Category filter */
+    this.sharedService.category$.subscribe((category) => {
+      this.applyCategoryFilter(category);
     });
 
-    // Subscribe to search text changes (live typing)
-    this.sharedService.search$.subscribe(query => {
-      this.searchText = query.toLowerCase();
-      this.applyFilters();
+    /* Search filter */
+    this.sharedService.search$.subscribe((query) => {
+      this.applySearch(query);
     });
+  }
+
+  /* NOTIFICATION LOGIC */
+
+  private checkNotificationPermission(): void {
+    if ('Notification' in window) {
+      const blocked = localStorage.getItem('notificationsBlocked');
+
+      if (
+        Notification.permission === 'granted' ||
+        Notification.permission === 'denied' ||
+        blocked
+      ) {
+        this.showNotificationPrompt = false;
+      }
+    }
+  }
+
+  allowNotifications(): void {
+    if ('Notification' in window) {
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          new Notification('🛍️ Thanks for enabling ngStore notifications!');
+        }
+      });
+    }
+    this.showNotificationPrompt = false;
+  }
+
+  blockNotifications(): void {
+    localStorage.setItem('notificationsBlocked', 'true');
+    this.showNotificationPrompt = false;
   }
 
   /* LOAD PRODUCTS */
+
   loadProducts(): void {
     this.productService.getAll().subscribe({
       next: (data: any[]) => {
-        this.products = data.map(p => ({ ...p, quantity: 1 }));
-        this.filteredProducts = [...this.products]; // initial display
+        this.products = data.map((p) => ({
+          ...p,
+          quantity: 1,
+        }));
+        this.filteredProducts = [...this.products];
       },
-      error: err => console.error(err),
+      error: (err) => console.error(err),
     });
   }
 
-  /* APPLY SEARCH & CATEGORY FILTERS */
-  private applyFilters(): void {
-    this.filteredProducts = this.products.filter(p => {
-      const name = p.name || p.title || p.productName || '';
-      const matchesSearch = this.searchText ? name.toLowerCase().includes(this.searchText) : true;
-      const matchesCategory = this.selectedCategory ? p.category?.toLowerCase() === this.selectedCategory.toLowerCase() : true;
-      return matchesSearch && matchesCategory;
-    });
+  /* FILTERS */
+
+  private applyCategoryFilter(category: string | null): void {
+    if (!category) {
+      this.filteredProducts = [...this.products];
+      return;
+    }
+
+    this.filteredProducts = this.products.filter(
+      (p) => p.category?.toLowerCase() === category.toLowerCase()
+    );
+  }
+
+  private applySearch(search: string): void {
+    if (!search) {
+      this.filteredProducts = [...this.products];
+      return;
+    }
+
+    this.filteredProducts = this.products.filter((p) =>
+      p.name?.toLowerCase().includes(search.toLowerCase())
+    );
   }
 
   /* QUANTITY */
-  increaseQty(p: any): void { p.quantity++; }
-  decreaseQty(p: any): void { if (p.quantity > 1) p.quantity--; }
+
+  increaseQty(p: any): void {
+    p.quantity++;
+  }
+
+  decreaseQty(p: any): void {
+    if (p.quantity > 1) p.quantity--;
+  }
 
   /* ADD TO CART */
+
   addToCart(product: any): void {
     this.cartService.addToUiCart(product);
     console.log('🛒 Added to cart:', product);
