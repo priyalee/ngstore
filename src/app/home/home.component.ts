@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { ProductService } from '../services/product.service';
@@ -11,7 +10,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, RouterOutlet],
+  imports: [CommonModule, FormsModule, NavbarComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })

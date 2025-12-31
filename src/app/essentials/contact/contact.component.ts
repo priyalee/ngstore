@@ -1,11 +1,10 @@
 import { ThemeService } from './../../services/theme.service';
 import { Component,OnInit } from '@angular/core';
 import { NavbarComponent } from "../../navbar/navbar.component";
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-contact',
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [NavbarComponent],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss']
 })

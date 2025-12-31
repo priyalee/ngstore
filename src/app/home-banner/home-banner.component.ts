@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { ThemeService } from '../services/theme.service';
-import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-home-banner',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NavbarComponent],
+  imports: [CommonModule, NavbarComponent],
   templateUrl: './home-banner.component.html',
   styleUrls: ['./home-banner.component.scss']
 })

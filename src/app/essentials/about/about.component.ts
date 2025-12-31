@@ -1,12 +1,11 @@
 import { ThemeService } from './../../services/theme.service';
 import { CommonModule } from '@angular/common';
 import { Component,OnInit} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "../../navbar/navbar.component";
 
 @Component({
   selector: 'app-about',
-  imports: [CommonModule, RouterOutlet, NavbarComponent],
+  imports: [CommonModule, NavbarComponent],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss']
 })

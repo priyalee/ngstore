@@ -3,14 +3,13 @@ import { ThemeService } from '../../services/theme.service';
 import { NotificationService } from '../../services/notification.service';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-front-banner',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NavbarComponent],
+  imports: [CommonModule, NavbarComponent],
   templateUrl: './front-banner.component.html',
-  styleUrl: './front-banner.component.scss'
+  styleUrls: ['./front-banner.component.scss']
 })
 export class FrontBannerComponent implements OnInit {
 

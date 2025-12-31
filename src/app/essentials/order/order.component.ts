@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { CommonModule, NgIf } from '@angular/common';
 import { NavbarComponent } from '../../navbar/navbar.component';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-order',
-  imports: [CommonModule, NavbarComponent, RouterOutlet],
+  imports: [CommonModule, NavbarComponent],
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.scss']
 })

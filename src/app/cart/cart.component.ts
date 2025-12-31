@@ -25,23 +25,22 @@ export class CartComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.applyLightMode();   // ✅ apply once
+    this.applyLightMode();  
     this.loadCarts();
   }
 
   ngOnDestroy(): void {
-    // ✅ CLEANUP (this was missing)
     this.renderer.removeClass(document.body, 'light-mode');
     this.renderer.removeClass(document.body, 'dark-mode');
   }
 
-  /* ================= THEME ================= */
+  /*THEME */
   private applyLightMode(): void {
     this.renderer.removeClass(document.body, 'dark-mode');
     this.renderer.addClass(document.body, 'light-mode');
   }
 
-  /* ================= LOAD CARTS ================= */
+  /* LOAD CARTS */
   loadCarts(): void {
     this.isLoading = true;
     this.cartService.getAll().subscribe({
@@ -53,7 +52,7 @@ export class CartComponent implements OnInit, OnDestroy {
     });
   }
 
-  /* ================= VIEW CART MODAL ================= */
+  /* VIEW CART MODAL */
   viewCart(cart: any): void {
     this.selectedCart = cart;
 
@@ -64,7 +63,7 @@ export class CartComponent implements OnInit, OnDestroy {
     }
   }
 
-  /* ================= DELETE CART ================= */
+  /* DELETE CART */
   deleteCart(id: number): void {
     this.cartService.delete(id).subscribe(() => {
       this.loadCarts();
@@ -75,7 +74,7 @@ export class CartComponent implements OnInit, OnDestroy {
     });
   }
 
-  /* ================= QUANTITY ================= */
+  /* QUANTITY */
   increase(product: any): void {
     product.quantity++;
     this.updateBackendCart();
@@ -88,7 +87,7 @@ export class CartComponent implements OnInit, OnDestroy {
     }
   }
 
-  /* ================= SYNC CART ================= */
+  /* SYNC CART */
   private updateBackendCart(): void {
     if (!this.selectedCart) return;
 

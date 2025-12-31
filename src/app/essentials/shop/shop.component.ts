@@ -1,13 +1,12 @@
 import { Component,OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "../../navbar/navbar.component";
 import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-shop',
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [NavbarComponent],
   templateUrl: './shop.component.html',
-  styleUrl: './shop.component.scss'
+  styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
 
