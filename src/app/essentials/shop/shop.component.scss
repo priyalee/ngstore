@@ -3,6 +3,7 @@
   display: block;
   width: 100%;
   height: auto;
+  max-height: 90vh; 
   margin-top: 64px;
 
   object-fit: contain;
@@ -40,14 +41,13 @@ body.dark-mode .shop-banner {
   }
 }
 
-/*MOBILE SCREENS*/
+/* MOBILE SCREENS */
 @media (max-width: 576px) {
   .shop-banner {
     margin-top: 56px;
     height: calc(100vh - 56px);
     max-height: calc(100vh - 56px);
     width: 100%;
-
     object-fit: contain;
     transform: none !important;
   }
