@@ -18,7 +18,7 @@ export class NotificationService {
     }
   }
 
-  //  Trigger ONLY on user click
+  // Trigger ONLY on user click
   allowNotifications(): void {
     if (!('Notification' in window)) return;
 

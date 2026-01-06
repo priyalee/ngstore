@@ -6,15 +6,15 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class SharedService {
 
-  // 🔹 Category filter stream
+  // Category filter stream
   private categorySubject = new BehaviorSubject<string | null>(null);
   category$ = this.categorySubject.asObservable();
 
-  // 🔹 Search filter stream
+  // Search filter stream
   private searchSubject = new BehaviorSubject<string>('');
   search$ = this.searchSubject.asObservable();
 
-  //  Set selected category
+  // Set selected category
   setCategory(category: string): void {
     this.categorySubject.next(category);
   }

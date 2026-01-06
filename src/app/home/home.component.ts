@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { ProductService } from '../services/product.service';
 import { SharedService } from '../services/shared.service';
 import { CartService } from '../services/cart.service';

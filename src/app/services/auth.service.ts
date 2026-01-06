@@ -10,17 +10,17 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  //  Login user and get token
+  // Login user and get token
   login(credentials: { username: string; password: string }): Observable<any> {
     return this.http.post<any>(this.api, credentials);
   }
 
-  //  Save token in local storage (optional)
+  // Save token in local storage (optional)
   saveToken(token: string) {
     localStorage.setItem('authToken', token);
   }
 
-  //  Get token
+  // Get token
   getToken(): string | null {
     return localStorage.getItem('authToken');
   }
@@ -30,7 +30,7 @@ export class AuthService {
     localStorage.removeItem('authToken');
   }
 
-  //  Check if user is logged in
+  // Check if user is logged in
   isLoggedIn(): boolean {
     return !!this.getToken();
   }

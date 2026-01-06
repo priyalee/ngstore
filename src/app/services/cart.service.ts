@@ -60,7 +60,7 @@ export class CartService {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
-  /* ================= UI → API SYNC ================= */
+  /* UI → API SYNC */
 
   syncUiCartToApi(userId = 5): Observable<any> {
     const payload = {
