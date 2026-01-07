@@ -2,10 +2,16 @@
   <div class="error-content">
     <img
       class="error-illustration"
-      [src]="isDarkMode 
-        ? 'assets/images/error-dark.png' 
-        : 'assets/images/error-light.png'"
-      alt="Error illustration"
+      [src]="isDarkMode ? 'assets/images/error-dark.png' : 'assets/images/error-light.png'"
+      alt="Page not found"
     />
+
+    <p class="error-message">
+      An unexpected error occurred.
+    </p>
+
+    <button class="btn-home" (click)="goHome()" aria-label="Go back to front page">
+      Go Back Home
+    </button>
   </div>
 </div>
