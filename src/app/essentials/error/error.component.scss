@@ -1,0 +1,57 @@
+/* THEME VARIABLES */
+:root {
+  --error-bg: linear-gradient(135deg, #f5f7fa, #c3cfe2); 
+  --error-img-filter: brightness(1);
+  --error-img-width: 90%;
+}
+
+/* DARK MODE */
+body.dark-mode {
+--error-bg: linear-gradient(135deg, rgb(13, 15, 27), rgb(20, 22, 38));
+  --error-img-filter: brightness(1.05);
+  --error-img-width: 95%;
+}
+
+/* ERROR PAGE */
+.error-page {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--error-bg);
+  transition: background 0.3s ease;
+  overflow: hidden;
+}
+
+.error-content {
+  width: var(--error-img-width);
+  max-width: 1200px;
+}
+
+/* IMAGE */
+.error-illustration {
+  width: 100%;
+  height: auto;
+  filter: var(--error-img-filter);
+  animation: float 3s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.error-illustration:hover {
+  transform: scale(1.05);
+}
+
+/* FLOAT */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .error-content {
+    width: 95%;
+  }
+}

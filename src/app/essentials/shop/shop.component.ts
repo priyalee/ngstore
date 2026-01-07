@@ -1,10 +1,8 @@
 import { Component,OnInit } from '@angular/core';
-import { NavbarComponent } from "../../navbar/navbar.component";
 import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-shop',
-  imports: [NavbarComponent],
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.scss']
 })

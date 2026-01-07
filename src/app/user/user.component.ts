@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user.service';
-import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule],
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
 })

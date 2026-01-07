@@ -1,10 +1,8 @@
 import { ThemeService } from './../../services/theme.service';
 import { Component,OnInit } from '@angular/core';
-import { NavbarComponent } from "../../navbar/navbar.component";
 
 @Component({
   selector: 'app-contact',
-  imports: [NavbarComponent],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss']
 })

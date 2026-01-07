@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { NotificationService } from '../../services/notification.service';
-import { NavbarComponent } from '../../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-front-banner',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule],
   templateUrl: './front-banner.component.html',
   styleUrls: ['./front-banner.component.scss']
 })
