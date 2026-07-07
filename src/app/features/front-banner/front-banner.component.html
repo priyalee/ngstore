@@ -1,0 +1,114 @@
+<!-- Notification prompt -->
+<div class="notif" *ngIf="showNotificationPrompt">
+  <div class="notif-icon"><i class="fa-solid fa-bell"></i></div>
+  <div class="notif-body">
+    <p class="title">Enable notifications</p>
+    <p class="desc">Get alerts for deals, orders &amp; updates.</p>
+    <div class="notif-actions">
+      <button class="btn btn-brand btn-sm" (click)="allowNotifications()">Allow</button>
+      <button class="btn btn-ghost btn-sm" (click)="blockNotifications()">No thanks</button>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container container-tight hero-grid">
+    <div class="hero-copy fade-up">
+      <span class="badge-soft"><i class="fa-solid fa-bolt"></i> {{ 'hero.badge' | translate }}</span>
+      <h1>{{ 'hero.title1' | translate }}<br><span class="grad">{{ 'hero.title2' | translate }}</span></h1>
+      <p>{{ 'hero.subtitle' | translate }}</p>
+      <div class="hero-cta">
+        <a routerLink="/home" class="btn btn-brand btn-lg">{{ 'hero.shopNow' | translate }} <i class="fa-solid fa-arrow-right"></i></a>
+        <a routerLink="/home-banner" class="btn btn-ghost btn-lg">{{ 'nav.deals' | translate }}</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>{{ totalProducts || '200' }}+</strong><span>{{ 'hero.stat.products' | translate }}</span></div>
+        <div><strong>50k+</strong><span>{{ 'hero.stat.customers' | translate }}</span></div>
+        <div><strong>4.8<i class="fa-solid fa-star"></i></strong><span>{{ 'hero.stat.rating' | translate }}</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual fade-up">
+      <div class="blob"></div>
+      <div class="float-card fc1"><i class="fa-solid fa-truck-fast"></i> Free & fast shipping</div>
+      <div class="float-card fc2"><i class="fa-solid fa-tag"></i> Best price guarantee</div>
+      <img [src]="featured[0]?.image || 'assets/images/nglogo.png'" alt="Featured product" />
+    </div>
+  </div>
+</section>
+
+<!-- PERKS -->
+<section class="perks">
+  <div class="container container-tight perks-grid">
+    <div class="perk" *ngFor="let p of perks">
+      <i class="fa-solid" [ngClass]="p.icon"></i>
+      <div><strong>{{ p.title }}</strong><span>{{ p.desc }}</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="section">
+  <div class="container container-tight">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">{{ 'sec.categoryEyebrow' | translate }}</p>
+        <h2>{{ 'sec.categoryTitle' | translate }}</h2>
+      </div>
+      <a routerLink="/home" class="see-all">{{ 'sec.viewAll' | translate }} <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div class="cat-grid">
+      <a routerLink="/home" (click)="goToCategory(c.name)" class="cat-card" *ngFor="let c of categories">
+        <div class="cat-img"><img [src]="c.image" [alt]="c.name" loading="lazy" /></div>
+        <div class="cat-info">
+          <span class="cat-name">{{ c.name }}</span>
+          <span class="cat-count">{{ c.count }} items</span>
+        </div>
+        <i class="fa-solid fa-arrow-right go"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section class="section pt-0">
+  <div class="container container-tight">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">{{ 'sec.featEyebrow' | translate }}</p>
+        <h2>{{ 'sec.featTitle' | translate }}</h2>
+      </div>
+      <a routerLink="/home" class="see-all">{{ 'sec.seeAll' | translate }} <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <div class="feat-grid" *ngIf="!loading">
+      <app-product-card *ngFor="let p of featured" [product]="p"></app-product-card>
+    </div>
+    <div class="feat-grid" *ngIf="loading">
+      <div class="sk surface" *ngFor="let s of [1,2,3,4]">
+        <div class="skeleton" style="aspect-ratio:1/1"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROMO BANNER -->
+<section class="section pt-0">
+  <div class="container container-tight promo-grid">
+    <div class="promo promo-a">
+      <div>
+        <span class="badge-soft badge-sale">Limited time</span>
+        <h3>Tech deals<br>up to 40% off</h3>
+        <a routerLink="/home" (click)="goToCategory('electronics')" class="btn btn-brand">Shop electronics</a>
+      </div>
+    </div>
+    <div class="promo promo-b">
+      <div>
+        <span class="badge-soft">New arrivals</span>
+        <h3>Fresh styles<br>for the season</h3>
+        <a routerLink="/home" (click)="goToCategory('women\'s clothing')" class="btn btn-accent">Shop fashion</a>
+      </div>
+    </div>
+  </div>
+</section>

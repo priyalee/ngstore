@@ -1,0 +1,89 @@
+<div class="shop">
+  <!-- Header band -->
+  <div class="shop-hero">
+    <div class="container container-tight">
+      <nav class="crumbs"><a routerLink="/front-banner">Home</a> <i class="fa-solid fa-chevron-right"></i> <span>Shop</span></nav>
+      <h1>The Shop</h1>
+      <p>Filter through the full collection and find exactly what you're after.</p>
+    </div>
+  </div>
+
+  <div class="container container-tight shop-layout">
+
+    <!-- Filters -->
+    <aside class="filters" [class.open]="filtersOpen">
+      <div class="filters-head">
+        <h3>Filters <span *ngIf="activeFilterCount" class="fcount">{{ activeFilterCount }}</span></h3>
+        <button class="clear" (click)="clearAll()" *ngIf="activeFilterCount">Clear all</button>
+      </div>
+
+      <div class="fgroup">
+        <h4>Category</h4>
+        <label class="check" *ngFor="let c of categories">
+          <input type="checkbox" [checked]="selectedCats.has(c)" (change)="toggleCat(c)" />
+          <span>{{ c }}</span>
+        </label>
+      </div>
+
+      <div class="fgroup">
+        <h4>Max price</h4>
+        <input type="range" min="0" [max]="priceCeiling" step="5" [(ngModel)]="maxPrice" (input)="onPriceInput()" (change)="onPriceChange()" />
+        <div class="range-val"><span>$0</span><strong>Up to {{ maxPrice | currency }}</strong></div>
+      </div>
+
+      <div class="fgroup">
+        <h4>Minimum rating</h4>
+        <button class="rate-opt" *ngFor="let r of [4,3,2,1]" [class.on]="minRating === r" (click)="setRating(r)">
+          <span class="stars">
+            <i class="fa-solid fa-star" *ngFor="let s of [].constructor(r)"></i>
+          </span>
+          <span>&amp; up</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Results -->
+    <section class="results">
+      <div class="toolbar">
+        <button class="filters-toggle" (click)="filtersOpen = !filtersOpen">
+          <i class="fa-solid fa-sliders"></i> Filters
+          <span *ngIf="activeFilterCount" class="fcount">{{ activeFilterCount }}</span>
+        </button>
+        <span class="count" *ngIf="!loading">{{ filtered.length }} products</span>
+        <div class="sort">
+          <label>Sort</label>
+          <select class="form-select" [(ngModel)]="sortBy" (change)="onSort()">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating">Top rated</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid" *ngIf="loading">
+        <div class="sk-card surface" *ngFor="let s of skeletons">
+          <div class="skeleton sk-img"></div>
+          <div class="skeleton sk-line w70"></div>
+          <div class="skeleton sk-line w40"></div>
+        </div>
+      </div>
+
+      <div class="grid" *ngIf="!loading && filtered.length">
+        <app-product-card *ngFor="let p of visibleProducts; trackBy: trackById" [product]="p" class="fade-up"></app-product-card>
+      </div>
+
+      <div class="load-more" *ngIf="!loading && visibleCount < filtered.length">
+        <p class="text-muted-2">Showing {{ visibleCount }} of {{ filtered.length }}</p>
+        <button class="btn btn-ghost" (click)="loadMore()">Load more products</button>
+      </div>
+
+      <div class="empty" *ngIf="!loading && !filtered.length">
+        <i class="fa-solid fa-filter-circle-xmark"></i>
+        <h3>No matches</h3>
+        <p class="text-muted-2">Try widening your filters.</p>
+        <button class="btn btn-brand" (click)="clearAll()">Reset filters</button>
+      </div>
+    </section>
+  </div>
+</div>

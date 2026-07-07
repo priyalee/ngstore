@@ -1,0 +1,153 @@
+<div class="pdp">
+  <div class="container container-tight">
+
+    <!-- Loading -->
+    <div class="pdp-grid" *ngIf="loading">
+      <div class="skeleton" style="aspect-ratio:1/1; border-radius:var(--radius)"></div>
+      <div>
+        <div class="skeleton" style="height:20px;width:40%;margin-bottom:1rem"></div>
+        <div class="skeleton" style="height:34px;width:85%;margin-bottom:1rem"></div>
+        <div class="skeleton" style="height:16px;width:60%;margin-bottom:2rem"></div>
+        <div class="skeleton" style="height:44px;width:30%;margin-bottom:2rem"></div>
+        <div class="skeleton" style="height:52px;width:100%"></div>
+      </div>
+    </div>
+
+    <!-- Not found -->
+    <div class="pdp-empty" *ngIf="notFound">
+      <i class="fa-solid fa-box-open"></i>
+      <h2>Product not found</h2>
+      <p class="text-muted-2">The item you're looking for isn't available.</p>
+      <a routerLink="/home" class="btn btn-brand">Back to products</a>
+    </div>
+
+    <ng-container *ngIf="!loading && product">
+      <!-- Breadcrumb -->
+      <nav class="crumbs">
+        <a routerLink="/front-banner">Home</a> <i class="fa-solid fa-chevron-right"></i>
+        <a routerLink="/home">Products</a> <i class="fa-solid fa-chevron-right"></i>
+        <span class="clamp-1">{{ product.title }}</span>
+      </nav>
+
+      <div class="pdp-grid">
+        <!-- Gallery -->
+        <div class="gallery">
+          <span class="g-badge" *ngIf="discount">-{{ discount }}% OFF</span>
+          <div class="g-main"><img [src]="selectedImage" [alt]="product.title" /></div>
+          <div class="g-thumbs" *ngIf="product.images && product.images.length > 1">
+            <button type="button" class="g-thumb" *ngFor="let img of product.images"
+                    [class.on]="img === selectedImage" (click)="selectImage(img)">
+              <img [src]="img" [alt]="product.title" />
+            </button>
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="info">
+          <div class="i-top">
+            <span class="i-cat">{{ product.category }}</span>
+            <span class="i-brand" *ngIf="product.brand">by {{ product.brand }}</span>
+          </div>
+          <h1>{{ product.title }}</h1>
+
+          <div class="i-rating" *ngIf="product.rating">
+            <span class="rating"><i *ngFor="let s of stars" [ngClass]="s"></i></span>
+            <strong>{{ product.rating.rate }}</strong>
+            <a (click)="activeTab='reviews'">{{ product.rating.count }} reviews</a>
+          </div>
+
+          <div class="i-price">
+            <span class="price">{{ product.price | currency }}</span>
+            <ng-container *ngIf="discount">
+              <span class="price-old">{{ originalPrice | currency }}</span>
+              <span class="save">Save {{ savings | currency }}</span>
+            </ng-container>
+          </div>
+          <p class="i-tax">Inclusive of all taxes</p>
+
+          <p class="i-desc clamp-2">{{ product.description }}</p>
+
+          <!-- Stock -->
+          <div class="stock" [class.low]="lowStock">
+            <i class="fa-solid" [ngClass]="lowStock ? 'fa-triangle-exclamation' : 'fa-circle-check'"></i>
+            <span *ngIf="lowStock">Only {{ stock }} left in stock — order soon</span>
+            <span *ngIf="!lowStock">In stock &middot; {{ stock }} available</span>
+          </div>
+
+          <!-- Qty + actions -->
+          <div class="buy-row">
+            <div class="qty">
+              <button (click)="dec()" [disabled]="quantity === 1">−</button>
+              <span>{{ quantity }}</span>
+              <button (click)="inc()" [disabled]="quantity >= stock">+</button>
+            </div>
+            <button class="btn btn-brand add" (click)="addToCart()"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+            <button class="btn btn-accent buy" (click)="buyNow()">Buy Now</button>
+            <button class="wish-btn" [class.on]="wished" (click)="toggleWish()" aria-label="Wishlist">
+              <i class="fa-heart" [ngClass]="wished ? 'fa-solid' : 'fa-regular'"></i>
+            </button>
+          </div>
+
+          <!-- Assurance -->
+          <div class="assure">
+            <div><i class="fa-solid fa-truck-fast"></i> <div><strong>Free delivery</strong><span>by {{ deliveryDate | date:'EEE, MMM d' }}</span></div></div>
+            <div><i class="fa-solid fa-rotate-left"></i> <div><strong>30-day returns</strong><span>Hassle-free</span></div></div>
+            <div><i class="fa-solid fa-shield-halved"></i> <div><strong>2-year warranty</strong><span>Included</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <div class="tab-head">
+          <button [class.on]="activeTab==='description'" (click)="activeTab='description'">Description</button>
+          <button [class.on]="activeTab==='reviews'" (click)="activeTab='reviews'">Reviews ({{ product.rating?.count || 0 }})</button>
+          <button [class.on]="activeTab==='shipping'" (click)="activeTab='shipping'">Shipping &amp; Returns</button>
+        </div>
+
+        <div class="tab-body" *ngIf="activeTab==='description'">
+          <p>{{ product.description }}</p>
+        </div>
+
+        <div class="tab-body reviews" *ngIf="activeTab==='reviews'">
+          <div class="rev-summary">
+            <div class="rev-score">
+              <strong>{{ product.rating?.rate }}</strong>
+              <span class="rating"><i *ngFor="let s of stars" [ngClass]="s"></i></span>
+              <span class="text-muted-2">{{ product.rating?.count }} global ratings</span>
+            </div>
+          </div>
+          <div class="rev" *ngFor="let r of reviews">
+            <div class="rev-top">
+              <span class="rev-avatar">{{ r.name.charAt(0) }}</span>
+              <div>
+                <strong>{{ r.name }}</strong>
+                <span class="rating sm"><i class="fa-solid fa-star" *ngFor="let x of [].constructor(r.rating)"></i></span>
+              </div>
+              <span class="rev-verified"><i class="fa-solid fa-circle-check"></i> Verified</span>
+            </div>
+            <p>{{ r.text }}</p>
+          </div>
+        </div>
+
+        <div class="tab-body" *ngIf="activeTab==='shipping'">
+          <ul class="ship-list">
+            <li><i class="fa-solid fa-truck-fast"></i> Free standard shipping on orders over $50 (3–5 business days).</li>
+            <li><i class="fa-solid fa-bolt"></i> Express delivery available at checkout.</li>
+            <li><i class="fa-solid fa-rotate-left"></i> Return any item within 30 days for a full refund.</li>
+            <li><i class="fa-solid fa-lock"></i> Secure, encrypted payment processing.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Related -->
+      <section class="related" *ngIf="related.length">
+        <div class="section-head"><div><p class="eyebrow">You might also like</p><h2>Related products</h2></div></div>
+        <div class="rel-grid">
+          <app-product-card *ngFor="let p of related" [product]="p"></app-product-card>
+        </div>
+      </section>
+    </ng-container>
+
+  </div>
+</div>

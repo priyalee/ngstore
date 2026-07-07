@@ -1,0 +1,89 @@
+<div class="cart-page">
+  <div class="container container-tight">
+
+    <ng-container>
+      <h1 class="cart-title">Shopping Cart</h1>
+
+      <!-- Empty -->
+      <div class="empty surface" *ngIf="!items.length">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <h3>Your cart is empty</h3>
+        <p class="text-muted-2">Looks like you haven't added anything yet.</p>
+        <a routerLink="/home" class="btn btn-brand">Start shopping</a>
+      </div>
+
+      <!-- Cart with items -->
+      <div class="cart-layout" *ngIf="items.length">
+
+        <!-- Items -->
+        <div class="cart-items">
+          <!-- Free shipping progress -->
+          <div class="ship-bar surface">
+            <p *ngIf="freeShipRemaining > 0">
+              <i class="fa-solid fa-truck-fast"></i>
+              Add <strong>{{ freeShipRemaining | currency }}</strong> more to get <strong>FREE shipping</strong>
+            </p>
+            <p *ngIf="freeShipRemaining === 0" class="ship-ok">
+              <i class="fa-solid fa-circle-check"></i> You've unlocked <strong>FREE shipping!</strong>
+            </p>
+            <div class="ship-track"><div class="ship-fill" [style.width.%]="freeShipProgress"></div></div>
+          </div>
+
+          <div class="c-item surface" *ngFor="let item of items">
+            <div class="c-thumb"><img [src]="item.image" [alt]="item.title" /></div>
+
+            <div class="c-info">
+              <span class="c-cat">{{ item.category }}</span>
+              <h3 class="clamp-2">{{ item.title }}</h3>
+              <span class="c-unit">{{ item.price | currency }} each</span>
+            </div>
+
+            <div class="c-controls">
+              <div class="qty">
+                <button (click)="dec(item)" [disabled]="item.quantity === 1" aria-label="Decrease">−</button>
+                <span>{{ item.quantity }}</span>
+                <button (click)="inc(item)" aria-label="Increase">+</button>
+              </div>
+              <span class="c-line">{{ item.price * item.quantity | currency }}</span>
+              <button class="c-remove" (click)="remove(item)" aria-label="Remove">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+
+          <a routerLink="/home" class="keep-shopping"><i class="fa-solid fa-arrow-left"></i> Continue shopping</a>
+        </div>
+
+        <!-- Summary -->
+        <aside class="summary surface">
+          <h3>Order Summary</h3>
+
+          <div class="promo">
+            <input type="text" [(ngModel)]="promo" placeholder="Promo code (try NG10)" />
+            <button class="btn btn-ghost" (click)="applyPromo()">Apply</button>
+          </div>
+
+          <div class="sum-row"><span>Subtotal</span><span>{{ subtotal | currency }}</span></div>
+          <div class="sum-row discount" *ngIf="promoApplied"><span>Promo (NG10)</span><span>−{{ promoDiscount | currency }}</span></div>
+          <div class="sum-row">
+            <span>Shipping</span>
+            <span>{{ shipping === 0 ? 'FREE' : (shipping | currency) }}</span>
+          </div>
+          <div class="sum-row"><span>Estimated tax</span><span>{{ tax | currency }}</span></div>
+
+          <div class="sum-total"><span>Total</span><span>{{ total | currency }}</span></div>
+
+          <a class="btn btn-accent checkout" routerLink="/checkout">
+            <i class="fa-solid fa-lock"></i> Proceed to Checkout
+          </a>
+
+          <div class="trust">
+            <span><i class="fa-solid fa-shield-halved"></i> Secure payment</span>
+            <span><i class="fa-solid fa-rotate-left"></i> 30-day returns</span>
+          </div>
+        </aside>
+      </div>
+    </ng-container>
+
+  </div>
+</div>

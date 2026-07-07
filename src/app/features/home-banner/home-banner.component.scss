@@ -1,0 +1,44 @@
+:host { display: block; }
+.pt-0 { padding-top: 0 !important; }
+
+/* Deals hero */
+.deals-hero {
+  background: linear-gradient(120deg, #7c2d12, #b45309 55%, #f59e0b);
+  color: #fff;
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+}
+html.dark .deals-hero { background: linear-gradient(120deg, #451a03, #92400e 55%, #b45309); }
+.dh-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+.dh-copy { max-width: 560px; }
+.dh-copy .badge-soft { background: rgba(255,255,255,.2); color: #fff; margin-bottom: 1rem; }
+.dh-copy h1 { color: #fff; font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; margin: 0 0 .8rem; }
+.dh-copy p { color: rgba(255,255,255,.9); font-size: 1.05rem; margin-bottom: 1.5rem; }
+.btn-lg { padding: .8rem 1.7rem; font-size: 1rem; }
+
+/* Countdown */
+.countdown { text-align: center; }
+.cd-label { font-weight: 700; letter-spacing: .05em; text-transform: uppercase; font-size: .8rem; margin-bottom: .8rem; opacity: .95; }
+.cd-clock { display: flex; align-items: center; gap: .6rem; }
+.cd-clock em { font-size: 2rem; font-style: normal; font-weight: 800; opacity: .8; }
+.cd-box {
+  background: rgba(255,255,255,.15);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: var(--radius-sm);
+  padding: .8rem 1rem;
+  min-width: 74px;
+  display: flex; flex-direction: column;
+}
+.cd-box strong { font-size: 2.1rem; font-weight: 800; font-family: "Poppins", sans-serif; line-height: 1; font-variant-numeric: tabular-nums; }
+.cd-box span { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; opacity: .85; margin-top: .35rem; }
+
+/* Grid */
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; }
+.grid .sk { padding: 0; overflow: hidden; }
+
+@media (max-width: 992px) { .grid { grid-template-columns: repeat(3, 1fr); } .dh-inner { justify-content: center; text-align: center; } .dh-copy { text-align: center; } }
+@media (max-width: 700px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 420px) {
+  .cd-box { min-width: 60px; padding: .6rem .7rem; }
+  .cd-box strong { font-size: 1.6rem; }
+}

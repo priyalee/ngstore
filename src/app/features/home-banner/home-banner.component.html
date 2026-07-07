@@ -1,0 +1,57 @@
+<!-- Deals hero -->
+<section class="deals-hero">
+  <div class="container container-tight dh-inner">
+    <div class="dh-copy">
+      <span class="badge-soft badge-sale"><i class="fa-solid fa-bolt"></i> Flash Sale</span>
+      <h1>Deals of the Day</h1>
+      <p>Big savings across every category — but only until midnight. Grab them before they're gone.</p>
+      <a routerLink="/home" class="btn btn-accent btn-lg">Shop all deals</a>
+    </div>
+
+    <div class="countdown">
+      <p class="cd-label"><i class="fa-solid fa-clock"></i> Ends in</p>
+      <div class="cd-clock">
+        <div class="cd-box"><strong>{{ pad(hours) }}</strong><span>Hours</span></div>
+        <em>:</em>
+        <div class="cd-box"><strong>{{ pad(minutes) }}</strong><span>Mins</span></div>
+        <em>:</em>
+        <div class="cd-box"><strong>{{ pad(seconds) }}</strong><span>Secs</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Deals grid -->
+<section class="section">
+  <div class="container container-tight">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Hurry, limited stock</p>
+        <h2>Today's top deals</h2>
+      </div>
+      <a routerLink="/shop" class="see-all">Browse the shop <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <div class="grid" *ngIf="!loading">
+      <app-product-card *ngFor="let p of deals" [product]="p" class="fade-up"></app-product-card>
+    </div>
+    <div class="grid" *ngIf="loading">
+      <div class="sk surface" *ngFor="let s of skeletons"><div class="skeleton" style="aspect-ratio:1/1"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Trending -->
+<section class="section pt-0">
+  <div class="container container-tight">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Loved by shoppers</p>
+        <h2>Trending now</h2>
+      </div>
+    </div>
+    <div class="grid" *ngIf="!loading">
+      <app-product-card *ngFor="let p of trending" [product]="p"></app-product-card>
+    </div>
+  </div>
+</section>

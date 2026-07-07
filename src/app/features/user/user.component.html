@@ -1,0 +1,128 @@
+<section class="acct-hero">
+  <div class="container container-tight acct-profile">
+    <div class="avatar">{{ initials }}</div>
+    <div class="who">
+      <h1>Hello, {{ displayName }}</h1>
+      <p class="text-muted-2"><i class="fa-solid fa-location-dot"></i> Delivering to {{ profile.location }}<ng-container *ngIf="profile.pincode"> · {{ profile.pincode }}</ng-container></p>
+    </div>
+    <a routerLink="/signin" class="btn btn-ghost"><i class="fa-solid fa-right-from-bracket"></i> Sign out</a>
+  </div>
+</section>
+
+<div class="container container-tight acct-body">
+
+  <!-- Editable profile: name, contact & delivery address -->
+  <div class="profile-edit surface">
+    <div class="pe-head">
+      <h3><i class="fa-solid fa-id-card"></i> Your details &amp; delivery address</h3>
+      <p class="text-muted-2">Used for your greeting, delivery location and to prefill checkout.</p>
+    </div>
+    <form class="pe-form" (ngSubmit)="saveProfile()">
+      <div class="pe-field">
+        <label>Full name *</label>
+        <div class="pe-input"><i class="fa-solid fa-user"></i><input type="text" [(ngModel)]="form.name" name="name" placeholder="e.g. Priyalee Sharma" /></div>
+      </div>
+      <div class="pe-field">
+        <label>Phone number</label>
+        <div class="pe-input"><i class="fa-solid fa-phone"></i><input type="tel" [(ngModel)]="form.phone" name="phone" placeholder="e.g. +91 98765 43210" /></div>
+      </div>
+      <div class="pe-field wide">
+        <label>Address <span class="opt">(house no., street, area)</span></label>
+        <div class="pe-input"><i class="fa-solid fa-house"></i><input type="text" [(ngModel)]="form.address" name="address" placeholder="e.g. 42, MG Road, Indiranagar" /></div>
+      </div>
+      <div class="pe-field">
+        <label>City</label>
+        <div class="pe-input">
+          <i class="fa-solid fa-location-dot"></i>
+          <input type="text" [(ngModel)]="form.location" name="location" list="cityList" placeholder="e.g. Bangalore" />
+          <datalist id="cityList"><option *ngFor="let c of cities" [value]="c"></option></datalist>
+        </div>
+      </div>
+      <div class="pe-field">
+        <label>State</label>
+        <div class="pe-input">
+          <i class="fa-solid fa-map"></i>
+          <input type="text" [(ngModel)]="form.state" name="state" list="stateList" placeholder="e.g. Karnataka" />
+          <datalist id="stateList"><option *ngFor="let s of states" [value]="s"></option></datalist>
+        </div>
+      </div>
+      <div class="pe-field">
+        <label>Pincode</label>
+        <div class="pe-input"><i class="fa-solid fa-hashtag"></i><input type="text" [(ngModel)]="form.pincode" name="pincode" placeholder="e.g. 560001" maxlength="6" /></div>
+      </div>
+      <button type="submit" class="btn btn-brand pe-save"><i class="fa-solid fa-floppy-disk"></i> Save details</button>
+    </form>
+  </div>
+
+  <!-- Quick links -->
+  <div class="quick">
+    <a class="q-card surface" *ngFor="let q of quickLinks" [routerLink]="q.link">
+      <div class="q-ic"><i class="fa-solid" [ngClass]="q.icon"></i></div>
+      <div><strong>{{ q.title }}</strong><span>{{ q.desc }}</span></div>
+      <i class="fa-solid fa-chevron-right go"></i>
+    </a>
+  </div>
+
+  <!-- Saved delivery address (from your profile) -->
+  <div class="detail surface saved-addr">
+    <div class="d-head"><h3><i class="fa-solid fa-location-dot"></i> Saved delivery address</h3></div>
+
+    <div class="addr-block" *ngIf="hasAddress">
+      <span class="addr-badge"><i class="fa-solid fa-house"></i> Home</span>
+      <strong>{{ displayName }}</strong>
+      <p *ngIf="profile.address">{{ profile.address }}</p>
+      <p>{{ profile.location }}<ng-container *ngIf="profile.state">, {{ profile.state }}</ng-container><ng-container *ngIf="profile.pincode"> — {{ profile.pincode }}</ng-container></p>
+      <p class="addr-phone" *ngIf="profile.phone"><i class="fa-solid fa-phone"></i> {{ profile.phone }}</p>
+    </div>
+
+    <div class="addr-empty text-muted-2" *ngIf="!hasAddress">
+      <i class="fa-solid fa-location-dot"></i>
+      No delivery address yet — add your phone and address above and hit <strong>Save details</strong>.
+    </div>
+  </div>
+
+  <!-- Admin (users management) -->
+  <div class="admin surface">
+    <button class="admin-toggle" (click)="showAdmin = !showAdmin">
+      <span><i class="fa-solid fa-users-gear"></i> Manage users <small>(admin)</small></span>
+      <i class="fa-solid" [ngClass]="showAdmin ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+    </button>
+
+    <div class="admin-body" *ngIf="showAdmin">
+      <div class="admin-bar">
+        <span class="text-muted-2">{{ users.length }} registered users</span>
+        <button class="btn btn-brand btn-sm" (click)="addUser()"><i class="fa-solid fa-user-plus"></i> Add user</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Username</th><th>Email</th><th>Phone</th><th class="ta-r">Actions</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let u of users">
+              <td><b>{{ u.id }}</b></td>
+              <td>{{ u.username }}</td>
+              <td class="clamp-1">{{ u.email }}</td>
+              <td>{{ u.phone }}</td>
+              <td class="ta-r acts">
+                <button class="ic-btn view" (click)="loadUser(u.id)" title="View"><i class="fa-solid fa-eye"></i></button>
+                <button class="ic-btn edit" (click)="updateUser(u.id)" title="Update"><i class="fa-solid fa-pen"></i></button>
+                <button class="ic-btn del" (click)="deleteUser(u.id)" title="Delete"><i class="fa-solid fa-trash"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="picked surface" *ngIf="singleUser">
+        <h4><i class="fa-solid fa-user"></i> {{ singleUser.name.firstname }} {{ singleUser.name.lastname }}</h4>
+        <div class="picked-rows">
+          <span>Email: <strong>{{ singleUser.email }}</strong></span>
+          <span>Username: <strong>{{ singleUser.username }}</strong></span>
+          <span>Phone: <strong>{{ singleUser.phone }}</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

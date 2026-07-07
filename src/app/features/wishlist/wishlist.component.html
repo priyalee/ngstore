@@ -1,0 +1,24 @@
+<div class="wish-page">
+  <div class="container container-tight">
+
+    <div class="wish-head">
+      <div>
+        <h1><i class="fa-solid fa-heart"></i> My Wishlist</h1>
+        <p class="text-muted-2" *ngIf="items.length">{{ items.length }} item{{ items.length > 1 ? 's' : '' }} saved</p>
+      </div>
+      <button class="btn btn-ghost" *ngIf="items.length" (click)="clear()">Clear all</button>
+    </div>
+
+    <div class="grid" *ngIf="items.length">
+      <app-product-card *ngFor="let p of items; trackBy: trackById" [product]="p" class="fade-up"></app-product-card>
+    </div>
+
+    <div class="empty surface" *ngIf="!items.length">
+      <i class="fa-regular fa-heart"></i>
+      <h3>Your wishlist is empty</h3>
+      <p class="text-muted-2">Tap the heart on any product to save it here for later.</p>
+      <a routerLink="/home" class="btn btn-brand">Discover products</a>
+    </div>
+
+  </div>
+</div>

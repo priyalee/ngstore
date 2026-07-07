@@ -1,0 +1,9 @@
+<div class="toast-stack">
+  <div class="toast-item" *ngFor="let t of toasts" [ngClass]="t.type">
+    <i [class]="t.icon"></i>
+    <span>{{ t.message }}</span>
+    <button class="close" (click)="dismiss(t.id)" aria-label="Dismiss">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+</div>

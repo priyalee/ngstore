@@ -1,0 +1,181 @@
+<header class="site-header">
+
+  <!-- Announcement strip -->
+  <div class="announce">
+    <div class="container container-tight announce-row">
+      <span><i class="fa-solid fa-truck-fast"></i> {{ 'announce.freeShip' | translate }}</span>
+      <span class="hide-sm"><i class="fa-solid fa-rotate-left"></i> {{ 'announce.returns' | translate }} &nbsp;·&nbsp; <i class="fa-solid fa-lock"></i> {{ 'announce.secure' | translate }}</span>
+    </div>
+  </div>
+
+  <!-- Main bar -->
+  <nav class="nav-main">
+    <div class="container container-tight nav-row">
+
+      <button class="icon-btn burger" (click)="toggleMenu()" aria-label="Menu">
+        <i class="fa-solid" [ngClass]="menuOpen ? 'fa-xmark' : 'fa-bars'"></i>
+      </button>
+
+      <a class="brand" routerLink="/front-banner" (click)="closeMenu()">
+        <img src="assets/images/ngstore logo.png" alt="NgStore" />
+      </a>
+
+      <div class="search-wrap">
+        <form class="search" (ngSubmit)="onSearch()">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" [(ngModel)]="searchQuery" name="search" autocomplete="off"
+                 (input)="onSearchInput()" (focus)="onSearchInput()" (blur)="hideSuggestionsSoon()"
+                 [placeholder]="'search.placeholder' | translate" />
+          <button type="submit">{{ 'search.button' | translate }}</button>
+        </form>
+        <div class="suggest" *ngIf="showSuggestions">
+          <button class="sg-item" *ngFor="let p of suggestions" (click)="selectSuggestion(p)">
+            <img [src]="p.image" [alt]="p.title" />
+            <span class="sg-title clamp-1">{{ p.title }}</span>
+            <span class="sg-price">{{ p.price | currency }}</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="icon-btn theme" (click)="toggleTheme()" [attr.aria-label]="isDarkMode ? 'Light mode' : 'Dark mode'">
+          <i [ngClass]="isDarkMode ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"></i>
+        </button>
+
+        <div class="lang" (click)="openLanguageModal()" title="Language">
+          <i class="fa-solid fa-globe"></i>
+          <span>{{ currentLang | uppercase }}</span>
+        </div>
+
+        <a class="signin" *ngIf="!auth.loggedIn" routerLink="/signin">
+          <i class="fa-regular fa-user"></i> {{ 'action.signIn' | translate }}
+        </a>
+
+        <div class="user-menu" *ngIf="auth.loggedIn">
+          <button class="user-chip">
+            <span class="user-avatar">{{ userInitial }}</span>
+            <span class="user-greet">
+              <small>Hello,</small>
+              <strong>{{ greetName }}</strong>
+            </span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="user-drop">
+            <span class="ud-hi">Hello, {{ greetName }}</span>
+            <a routerLink="/user"><i class="fa-solid fa-user"></i> {{ 'nav.myAccount' | translate }}</a>
+            <a routerLink="/order"><i class="fa-solid fa-box"></i> {{ 'nav.orders' | translate }}</a>
+            <a routerLink="/wishlist"><i class="fa-regular fa-heart"></i> {{ 'nav.wishlist' | translate }}</a>
+            <button (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i> {{ 'action.signOut' | translate }}</button>
+          </div>
+        </div>
+
+        <a class="icon-btn wish" routerLink="/wishlist" aria-label="Wishlist" title="Wishlist">
+          <i class="fa-regular fa-heart"></i>
+          <span class="wish-badge" *ngIf="wishCount > 0">{{ wishCount }}</span>
+        </a>
+
+        <a class="stacked" routerLink="/order">
+          <small>{{ 'nav.returns' | translate }}</small>
+          <strong>{{ 'nav.orders' | translate }}</strong>
+        </a>
+
+        <button class="cart-btn" (click)="openCart()" aria-label="Open cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-label">{{ 'action.cart' | translate }}</span>
+          <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sub bar: categories + links -->
+    <div class="subbar">
+      <div class="container container-tight sub-row">
+        <div class="location">
+          <button class="loc-btn" (click)="toggleLocation()" [class.active]="locationOpen" aria-haspopup="listbox" [attr.aria-expanded]="locationOpen">
+            <i class="fa-solid fa-location-dot loc-pin"></i>
+            <span class="loc-text">
+              <small>{{ 'loc.deliverTo' | translate }}<ng-container *ngIf="profile.name"> {{ profile.name }}</ng-container></small>
+              <strong>{{ profile.location }}<ng-container *ngIf="profile.pincode"> {{ profile.pincode }}</ng-container></strong>
+            </span>
+            <i class="fa-solid fa-chevron-down caret"></i>
+          </button>
+
+          <div class="loc-drop" *ngIf="locationOpen">
+            <p class="loc-drop-title">{{ 'loc.choose' | translate }}</p>
+            <div class="loc-custom">
+              <input type="text" [(ngModel)]="customCity" name="customCity" placeholder="Enter your city or area…" (keyup.enter)="addCustomLocation()" />
+              <button type="button" (click)="addCustomLocation()">Set</button>
+            </div>
+            <button class="loc-opt" *ngFor="let loc of locations" [class.sel]="loc === profile.location" (click)="selectLocation(loc)">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>{{ loc }}</span>
+              <i class="fa-solid fa-check" *ngIf="loc === profile.location"></i>
+            </button>
+          </div>
+        </div>
+        <div class="loc-backdrop" *ngIf="locationOpen" (click)="locationOpen = false"></div>
+
+        <ul class="links">
+          <li><a routerLink="/home-banner" routerLinkActive="active">{{ 'nav.home' | translate }}</a></li>
+          <li class="has-menu">
+            <a routerLink="/home" routerLinkActive="active" (click)="filterByCategory(null)">
+              {{ 'nav.products' | translate }} <i class="fa-solid fa-chevron-down"></i>
+            </a>
+            <div class="mega">
+              <a routerLink="/home" (click)="filterByCategory(null)">{{ 'nav.allProducts' | translate }}</a>
+              <a *ngFor="let c of categories" routerLink="/home" (click)="filterByCategory(c)">{{ c }}</a>
+            </div>
+          </li>
+          <li><a routerLink="/shop" routerLinkActive="active">{{ 'nav.shop' | translate }}</a></li>
+          <li><a routerLink="/about" routerLinkActive="active">{{ 'nav.about' | translate }}</a></li>
+          <li><a routerLink="/contact" routerLinkActive="active">{{ 'nav.contact' | translate }}</a></li>
+        </ul>
+
+        <a class="deals" routerLink="/home-banner">
+          <i class="fa-solid fa-bolt"></i> {{ 'nav.deals' | translate }}
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile slide-down menu -->
+  <div class="mobile-menu" [class.open]="menuOpen">
+    <a routerLink="/home-banner" (click)="closeMenu()"><i class="fa-solid fa-house"></i> {{ 'nav.home' | translate }}</a>
+    <a routerLink="/home" (click)="filterByCategory(null); closeMenu()"><i class="fa-solid fa-box-open"></i> {{ 'nav.products' | translate }}</a>
+    <a routerLink="/shop" (click)="closeMenu()"><i class="fa-solid fa-store"></i> {{ 'nav.shop' | translate }}</a>
+    <a routerLink="/about" (click)="closeMenu()"><i class="fa-solid fa-circle-info"></i> {{ 'nav.about' | translate }}</a>
+    <a routerLink="/contact" (click)="closeMenu()"><i class="fa-solid fa-envelope"></i> {{ 'nav.contact' | translate }}</a>
+    <div class="mm-divider"></div>
+    <a routerLink="/wishlist" (click)="closeMenu()"><i class="fa-regular fa-heart"></i> {{ 'nav.wishlist' | translate }}</a>
+    <a *ngIf="!auth.loggedIn" routerLink="/signin" (click)="closeMenu()"><i class="fa-regular fa-user"></i> {{ 'action.signIn' | translate }}</a>
+    <a routerLink="/order" (click)="closeMenu()"><i class="fa-solid fa-box"></i> {{ 'nav.returns' | translate }} {{ 'nav.orders' | translate }}</a>
+    <a routerLink="/user" (click)="closeMenu()"><i class="fa-solid fa-gear"></i> {{ 'nav.myAccount' | translate }}</a>
+    <button *ngIf="auth.loggedIn" class="mm-logout" (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i> {{ 'action.signOut' | translate }}</button>
+  </div>
+  <div class="menu-backdrop" *ngIf="menuOpen" (click)="closeMenu()"></div>
+</header>
+
+<!-- Language Modal -->
+<div class="modal fade" id="languageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ 'lang.settings' | translate }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted-2">{{ 'lang.desc' | translate }}</p>
+        <div class="lang-grid">
+          <label class="lang-row" *ngFor="let lang of languages" [class.sel]="selectedLanguage === lang.value">
+            <input type="radio" name="language" [value]="lang.value" [(ngModel)]="selectedLanguage" />
+            <span>{{ lang.label }}</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">{{ 'common.cancel' | translate }}</button>
+        <button type="button" class="btn btn-brand" data-bs-dismiss="modal" (click)="saveLanguage()">{{ 'lang.save' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>

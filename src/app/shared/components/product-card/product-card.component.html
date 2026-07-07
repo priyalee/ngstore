@@ -1,0 +1,40 @@
+<article class="p-card" (click)="open()">
+  <div class="p-media">
+    <span class="p-badge" *ngIf="discount">-{{ discount }}%</span>
+    <span class="p-badge best" *ngIf="!discount && isBestseller">Bestseller</span>
+
+    <button class="p-wish" [class.on]="wished" (click)="toggleWish($event)" aria-label="Add to wishlist">
+      <i class="fa-heart" [ngClass]="wished ? 'fa-solid' : 'fa-regular'"></i>
+    </button>
+
+    <img [src]="product.image" [alt]="product.title" loading="lazy" />
+  </div>
+
+  <div class="p-body">
+    <div class="p-meta">
+      <span class="p-cat">{{ product.category }}</span>
+      <span class="p-brand" *ngIf="product.brand">{{ product.brand }}</span>
+    </div>
+    <h3 class="p-title clamp-2" [title]="product.title">{{ product.title }}</h3>
+
+    <div class="rating" *ngIf="product.rating">
+      <i *ngFor="let s of stars" [ngClass]="s"></i>
+      <span class="rate-num">{{ product.rating.rate }}</span>
+      <span class="count">({{ product.rating.count }})</span>
+    </div>
+
+    <span class="p-stock" *ngIf="lowStock"><i class="fa-solid fa-fire"></i> Only {{ product.stock }} left</span>
+
+    <div class="p-foot">
+      <div class="p-price">
+        <span class="price">{{ product.price | currency }}</span>
+        <span class="price-old" *ngIf="discount">{{ originalPrice | currency }}</span>
+      </div>
+
+      <button class="p-add" [class.added]="justAdded" (click)="addToCart($event)" aria-label="Add to cart">
+        <i class="fa-solid" [ngClass]="justAdded ? 'fa-check' : 'fa-cart-plus'"></i>
+        <span>{{ justAdded ? 'Added' : 'Add' }}</span>
+      </button>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,67 @@
+<section class="contact-hero">
+  <div class="container container-tight">
+    <span class="badge-soft">We're here to help</span>
+    <h1>Get in touch</h1>
+    <p>Questions about an order, a product, or anything else? Our team would love to hear from you.</p>
+  </div>
+</section>
+
+<section class="section pt-0">
+  <div class="container container-tight channels">
+    <div class="channel surface" *ngFor="let c of channels">
+      <div class="ch-ic"><i class="fa-solid" [ngClass]="c.icon"></i></div>
+      <h3>{{ c.title }}</h3>
+      <strong>{{ c.value }}</strong>
+      <span>{{ c.sub }}</span>
+    </div>
+  </div>
+</section>
+
+<section class="section pt-0">
+  <div class="container container-tight contact-grid">
+    <!-- Form -->
+    <div class="form-card surface">
+      <h2>Send us a message</h2>
+      <p class="text-muted-2">Fill in the form and we'll get back to you shortly.</p>
+
+      <form (ngSubmit)="submit()">
+        <div class="row2">
+          <div class="field">
+            <label>Full name *</label>
+            <input type="text" [(ngModel)]="form.name" name="name" placeholder="Jane Doe" />
+          </div>
+          <div class="field">
+            <label>Email *</label>
+            <input type="email" [(ngModel)]="form.email" name="email" placeholder="jane@email.com" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Subject</label>
+          <input type="text" [(ngModel)]="form.subject" name="subject" placeholder="How can we help?" />
+        </div>
+        <div class="field">
+          <label>Message *</label>
+          <textarea rows="5" [(ngModel)]="form.message" name="message" placeholder="Tell us more…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-brand btn-block">
+          <i class="fa-solid fa-paper-plane"></i> Send message
+        </button>
+      </form>
+    </div>
+
+    <!-- Side -->
+    <div class="side">
+      <div class="map surface">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span>NgStore HQ · MG Road, Bangalore</span>
+      </div>
+      <div class="faq surface">
+        <h3>Frequently asked</h3>
+        <details *ngFor="let f of faqs">
+          <summary>{{ f.q }} <i class="fa-solid fa-chevron-down"></i></summary>
+          <p>{{ f.a }}</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>

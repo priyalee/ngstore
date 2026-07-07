@@ -1,0 +1,33 @@
+<div class="err" [class.overlay]="overlay" [ngClass]="'v-' + variant">
+  <div class="err-inner">
+    <div class="err-art">
+      <div class="err-icon"><i class="fa-solid" [ngClass]="cfg.icon"></i></div>
+      <span class="err-code">{{ cfg.code }}</span>
+    </div>
+
+    <h1>{{ cfg.title }}</h1>
+    <p>{{ cfg.message }}</p>
+
+    <div class="err-actions">
+      <button *ngIf="cfg.retry" class="btn btn-brand" (click)="retry()">
+        <i class="fa-solid fa-rotate-right"></i> Try again
+      </button>
+      <button *ngIf="!cfg.retry" class="btn btn-brand" (click)="goHome()">
+        <i class="fa-solid fa-house"></i> Back to home
+      </button>
+      <button class="btn btn-ghost" (click)="goBack()">
+        <i class="fa-solid fa-arrow-left"></i> Go back
+      </button>
+      <button *ngIf="cfg.retry" class="btn btn-ghost" (click)="goHome()">
+        <i class="fa-solid fa-house"></i> Home
+      </button>
+    </div>
+
+    <div class="err-help" *ngIf="variant === 'not-found'">
+      <span>Popular pages:</span>
+      <a routerLink="/home">Products</a>
+      <a routerLink="/shop">Shop</a>
+      <a routerLink="/home-banner">Deals</a>
+    </div>
+  </div>
+</div>

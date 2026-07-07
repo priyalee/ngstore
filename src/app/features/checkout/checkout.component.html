@@ -1,0 +1,138 @@
+<div class="checkout">
+  <div class="container container-tight">
+
+    <!-- Confirmation -->
+    <div class="confirm surface fade-up" *ngIf="placedOrder">
+      <div class="confirm-icon"><i class="fa-solid fa-check"></i></div>
+      <h2>Order confirmed!</h2>
+      <p class="text-muted-2">Thank you, {{ shipping.fullName || 'friend' }}. Your order is on its way.</p>
+      <div class="order-ref">
+        <div><span>Order number</span><strong>{{ placedOrder.id }}</strong></div>
+        <div><span>Total paid</span><strong>{{ placedOrder.total | currency }}</strong></div>
+        <div><span>Delivery to</span><strong class="clamp-1">{{ placedOrder.address }}</strong></div>
+      </div>
+      <div class="confirm-actions">
+        <a routerLink="/order" class="btn btn-brand">Track my order</a>
+        <a routerLink="/home" class="btn btn-ghost">Continue shopping</a>
+      </div>
+    </div>
+
+    <ng-container *ngIf="!placedOrder">
+      <!-- Empty cart guard -->
+      <div class="empty surface" *ngIf="!items.length">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <h3>Your cart is empty</h3>
+        <p class="text-muted-2">Add some items before checking out.</p>
+        <a routerLink="/home" class="btn btn-brand">Start shopping</a>
+      </div>
+
+      <ng-container *ngIf="items.length">
+        <h1 class="co-title">Checkout</h1>
+
+        <!-- Stepper -->
+        <div class="stepper">
+          <div class="s-step" [class.on]="step>=1" [class.done]="step>1">
+            <span class="s-dot"><i class="fa-solid fa-check" *ngIf="step>1"></i><b *ngIf="step<=1">1</b></span>
+            <span class="s-label">Shipping</span>
+          </div>
+          <span class="s-line" [class.done]="step>1"></span>
+          <div class="s-step" [class.on]="step>=2" [class.done]="step>2">
+            <span class="s-dot"><i class="fa-solid fa-check" *ngIf="step>2"></i><b *ngIf="step<=2">2</b></span>
+            <span class="s-label">Payment</span>
+          </div>
+          <span class="s-line" [class.done]="step>2"></span>
+          <div class="s-step" [class.on]="step>=3">
+            <span class="s-dot"><b>3</b></span>
+            <span class="s-label">Review</span>
+          </div>
+        </div>
+
+        <div class="co-layout">
+          <div class="co-main surface">
+
+            <!-- Step 1: Shipping -->
+            <div *ngIf="step===1">
+              <h3>Shipping address</h3>
+              <div class="fields">
+                <div class="f wide"><label>Full name *</label><input [(ngModel)]="shipping.fullName" placeholder="Jane Doe" /></div>
+                <div class="f"><label>Email *</label><input type="email" [(ngModel)]="shipping.email" placeholder="jane@email.com" /></div>
+                <div class="f"><label>Phone *</label><input [(ngModel)]="shipping.phone" placeholder="+91 98765 43210" /></div>
+                <div class="f wide"><label>Street address *</label><input [(ngModel)]="shipping.address" placeholder="42 MG Road" /></div>
+                <div class="f"><label>City *</label><input [(ngModel)]="shipping.city" placeholder="Bangalore" /></div>
+                <div class="f"><label>Zip code *</label><input [(ngModel)]="shipping.zip" placeholder="560001" /></div>
+              </div>
+              <button class="btn btn-brand nav-btn" (click)="next()">Continue to payment <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+
+            <!-- Step 2: Payment -->
+            <div *ngIf="step===2">
+              <h3>Payment details</h3>
+              <div class="pay-note"><i class="fa-solid fa-lock"></i> This is a demo — no real payment is processed.</div>
+              <div class="fields">
+                <div class="f wide"><label>Name on card *</label><input [(ngModel)]="payment.name" placeholder="Jane Doe" /></div>
+                <div class="f wide"><label>Card number *</label><input [(ngModel)]="payment.card" placeholder="4242 4242 4242 4242" maxlength="19" /></div>
+                <div class="f"><label>Expiry *</label><input [(ngModel)]="payment.expiry" placeholder="MM/YY" maxlength="5" /></div>
+                <div class="f"><label>CVV *</label><input [(ngModel)]="payment.cvv" placeholder="123" maxlength="4" /></div>
+              </div>
+              <div class="nav-pair">
+                <button class="btn btn-ghost" (click)="back()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                <button class="btn btn-brand" (click)="next()">Review order <i class="fa-solid fa-arrow-right"></i></button>
+              </div>
+            </div>
+
+            <!-- Step 3: Review -->
+            <div *ngIf="step===3">
+              <h3>Review &amp; place order</h3>
+              <div class="review-block">
+                <div class="rb">
+                  <span class="rb-h">Ship to</span>
+                  <p>{{ shipping.fullName }}<br>{{ shipping.address }}, {{ shipping.city }} {{ shipping.zip }}<br>{{ shipping.phone }}</p>
+                  <button class="edit" (click)="step=1">Edit</button>
+                </div>
+                <div class="rb">
+                  <span class="rb-h">Payment</span>
+                  <p>{{ payment.name }}<br>{{ maskCard(payment.card) }}<br>Expires {{ payment.expiry }}</p>
+                  <button class="edit" (click)="step=2">Edit</button>
+                </div>
+              </div>
+
+              <div class="review-items">
+                <div class="ri" *ngFor="let i of items">
+                  <div class="ri-thumb"><img [src]="i.image" [alt]="i.title" /></div>
+                  <span class="ri-title clamp-1">{{ i.title }}</span>
+                  <span class="ri-qty">×{{ i.quantity }}</span>
+                  <span class="ri-price">{{ i.price * i.quantity | currency }}</span>
+                </div>
+              </div>
+
+              <div class="nav-pair">
+                <button class="btn btn-ghost" (click)="back()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                <button class="btn btn-accent place" (click)="placeOrder()" [disabled]="placing">
+                  <span *ngIf="!placing"><i class="fa-solid fa-lock"></i> Place order · {{ total | currency }}</span>
+                  <span *ngIf="placing"><i class="fa-solid fa-spinner fa-spin"></i> Processing…</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <aside class="co-summary surface">
+            <h3>Order summary</h3>
+            <div class="mini-items">
+              <div class="mi" *ngFor="let i of items">
+                <div class="mi-thumb"><img [src]="i.image" [alt]="i.title" /><span class="mi-qty">{{ i.quantity }}</span></div>
+                <span class="mi-title clamp-2">{{ i.title }}</span>
+                <span class="mi-price">{{ i.price * i.quantity | currency }}</span>
+              </div>
+            </div>
+            <div class="sum-row"><span>Subtotal ({{ itemCount }})</span><span>{{ subtotal | currency }}</span></div>
+            <div class="sum-row"><span>Shipping</span><span>{{ shippingFee === 0 ? 'FREE' : (shippingFee | currency) }}</span></div>
+            <div class="sum-row"><span>Tax</span><span>{{ tax | currency }}</span></div>
+            <div class="sum-total"><span>Total</span><span>{{ total | currency }}</span></div>
+          </aside>
+        </div>
+      </ng-container>
+    </ng-container>
+
+  </div>
+</div>

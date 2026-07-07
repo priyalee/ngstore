@@ -1,2 +1,12 @@
-<app-navbar></app-navbar>
-<router-outlet></router-outlet>
+<app-navbar *ngIf="!isAuthRoute"></app-navbar>
+<main class="app-main">
+  <router-outlet></router-outlet>
+</main>
+<app-footer *ngIf="!isAuthRoute"></app-footer>
+<app-toast></app-toast>
+<app-cart-drawer></app-cart-drawer>
+
+<!-- Global error overlay: no internet / server error -->
+@if (errorOverlay; as variant) {
+  <app-error-page [variant]="variant" [overlay]="true"></app-error-page>
+}

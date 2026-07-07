@@ -1,0 +1,53 @@
+<section class="about-hero">
+  <div class="container container-tight">
+    <span class="badge-soft">Our story</span>
+    <h1>Shopping, <span class="grad">made human.</span></h1>
+    <p>NgStore started with a simple idea: online shopping should feel effortless, honest and even a little joyful. Today we bring thousands of carefully chosen products to shoppers everywhere — at prices that make sense.</p>
+  </div>
+</section>
+
+<section class="section pt-0">
+  <div class="container container-tight stats">
+    <div class="stat" *ngFor="let s of stats">
+      <strong>{{ s.value }}</strong>
+      <span>{{ s.label }}</span>
+    </div>
+  </div>
+</section>
+
+<section class="section pt-0">
+  <div class="container container-tight story">
+    <div class="story-media"><i class="fa-solid fa-store"></i></div>
+    <div class="story-copy">
+      <p class="eyebrow">Why we exist</p>
+      <h2>Built for the way you really shop</h2>
+      <p>We obsess over the details so you don't have to — from curating quality products, to fair pricing, to a checkout that just works. No dark patterns, no clutter, no nonsense.</p>
+      <p>Whether you're upgrading your tech, refreshing your wardrobe or finding the perfect gift, we're here to make it simple.</p>
+      <a routerLink="/home" class="btn btn-brand">Explore products <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<section class="section pt-0">
+  <div class="container container-tight">
+    <div class="section-head"><div><p class="eyebrow">What we stand for</p><h2>Our values</h2></div></div>
+    <div class="values">
+      <div class="value surface" *ngFor="let v of values">
+        <div class="v-ic"><i class="fa-solid" [ngClass]="v.icon"></i></div>
+        <h3>{{ v.title }}</h3>
+        <p>{{ v.desc }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section pt-0">
+  <div class="container container-tight cta">
+    <h2>Ready to find something you'll love?</h2>
+    <p>Join thousands of shoppers who trust NgStore every day.</p>
+    <div class="cta-btns">
+      <a routerLink="/home" class="btn btn-brand btn-lg">Start shopping</a>
+      <a routerLink="/contact" class="btn btn-ghost btn-lg">Get in touch</a>
+    </div>
+  </div>
+</section>

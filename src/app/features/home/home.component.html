@@ -1,0 +1,61 @@
+<div class="catalog">
+  <div class="container container-tight">
+
+    <!-- Header -->
+    <div class="cat-head">
+      <div>
+        <p class="eyebrow">Browse the store</p>
+        <h1>{{ selectedCategory ? (selectedCategory | titlecase) : 'All Products' }}</h1>
+        <p class="text-muted-2 mb-0" *ngIf="!loading">{{ filteredProducts.length }} items{{ searchText ? ' matching "' + searchText + '"' : '' }}</p>
+      </div>
+
+      <div class="sort">
+        <label>Sort</label>
+        <select class="form-select" [(ngModel)]="sortBy" (change)="applyFilters()">
+          <option value="featured">Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="rating">Top rated</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Category chips -->
+    <div class="chip-row">
+      <button class="chip" [class.active]="!selectedCategory" (click)="selectCategory(null)">All</button>
+      <button class="chip" *ngFor="let c of categories" [class.active]="selectedCategory === c" (click)="selectCategory(c)">
+        {{ c }}
+      </button>
+    </div>
+
+    <!-- Loading skeletons -->
+    <div class="grid" *ngIf="loading">
+      <div class="sk-card surface" *ngFor="let s of skeletons">
+        <div class="skeleton sk-img"></div>
+        <div class="skeleton sk-line w70"></div>
+        <div class="skeleton sk-line w40"></div>
+        <div class="skeleton sk-line w50"></div>
+      </div>
+    </div>
+
+    <!-- Products -->
+    <div class="grid" *ngIf="!loading && filteredProducts.length">
+      <app-product-card *ngFor="let p of visibleProducts; trackBy: trackById" [product]="p" class="fade-up"></app-product-card>
+    </div>
+
+    <!-- Load more -->
+    <div class="load-more" *ngIf="!loading && visibleCount < filteredProducts.length">
+      <p class="text-muted-2">Showing {{ visibleCount }} of {{ filteredProducts.length }}</p>
+      <button class="btn btn-ghost" (click)="loadMore()">Load more products</button>
+    </div>
+
+    <!-- Empty -->
+    <div class="empty" *ngIf="!loading && !filteredProducts.length">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <h3>No products found</h3>
+      <p class="text-muted-2">Try a different search or category.</p>
+      <button class="btn btn-brand" (click)="selectCategory(null)">Clear filters</button>
+    </div>
+
+  </div>
+</div>

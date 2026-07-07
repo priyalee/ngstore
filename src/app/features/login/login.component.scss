@@ -1,0 +1,98 @@
+:host { display: block; }
+.surface { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+
+.auth {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 3rem 0;
+  background:
+    radial-gradient(800px 500px at 15% 0%, rgba(var(--brand-rgb), .18), transparent 60%),
+    radial-gradient(700px 500px at 100% 100%, rgba(245,158,11,.10), transparent 55%),
+    var(--bg);
+}
+.auth-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  animation: fadeUp .5s ease both;
+}
+
+/* Marketing side */
+.auth-side {
+  background: linear-gradient(150deg, var(--brand), var(--brand-700));
+  color: #fff;
+  padding: 3rem 2.5rem;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.side-logo { font-family: "Poppins", sans-serif; font-weight: 800; font-size: 1.4rem; display: flex; align-items: center; gap: .5rem; margin-bottom: 2rem; }
+.auth-side h2 { color: #fff; font-size: 1.9rem; font-weight: 800; margin-bottom: .8rem; }
+.auth-side > p { color: rgba(255,255,255,.9); line-height: 1.6; }
+.side-perks { list-style: none; padding: 0; margin: 2rem 0 0; }
+.side-perks li { display: flex; align-items: center; gap: .6rem; padding: .5rem 0; font-size: .95rem; }
+.side-perks i { color: #fff; }
+
+/* Form side */
+.auth-form { padding: 3rem 2.5rem; }
+.auth-form h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: .3rem; }
+.auth-form > p { margin-bottom: 1.75rem; }
+
+.field { margin-bottom: 1.15rem; }
+.field label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .45rem; }
+.input-wrap { position: relative; display: flex; align-items: center; }
+.input-wrap > i:first-child { position: absolute; left: 1rem; color: var(--text-faint); }
+.input-wrap input {
+  width: 100%;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  padding: .75rem 1rem .75rem 2.6rem;
+  font-size: .95rem; color: var(--text);
+}
+.input-wrap input:focus { outline: none; border-color: var(--brand); box-shadow: var(--ring); }
+.peek { position: absolute; right: .5rem; border: none; background: transparent; color: var(--text-faint); cursor: pointer; padding: .5rem; }
+.peek:hover { color: var(--text); }
+
+.row-between { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+.remember { display: flex; align-items: center; gap: .5rem; font-size: .88rem; color: var(--text-muted); cursor: pointer; }
+.remember input { accent-color: var(--brand); }
+.link { color: var(--brand); font-weight: 600; font-size: .88rem; }
+.link:hover { text-decoration: underline; }
+
+.alert-error {
+  background: var(--danger-050); color: var(--danger);
+  padding: .7rem .9rem; border-radius: var(--radius-sm);
+  font-size: .88rem; margin-bottom: 1rem;
+  display: flex; align-items: center; gap: .5rem;
+}
+.btn-block { width: 100%; padding: .8rem; font-size: 1rem; }
+.btn-block i { margin-right: .4rem; }
+.demo { margin-top: .7rem; }
+
+.divider { display: flex; align-items: center; gap: 1rem; margin: 1.4rem 0; color: var(--text-faint); font-size: .82rem; }
+.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+.guest i { margin-right: .45rem; }
+.signup { text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: .9rem; }
+
+/* Signed in */
+.signed-in { text-align: center; padding: 1rem 0; }
+.ok-ic {
+  width: 68px; height: 68px; margin: 0 auto 1.2rem;
+  border-radius: 50%; background: var(--success-050); color: var(--success);
+  display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+  animation: fadeUp .4s ease both;
+}
+.signed-in h3 { font-weight: 800; }
+.token {
+  display: block; word-break: break-all;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: .7rem; margin: 1rem 0 1.5rem;
+  font-size: .78rem; color: var(--text-muted);
+}
+.si-actions { display: flex; gap: .7rem; justify-content: center; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .auth-card { grid-template-columns: 1fr; }
+  .auth-side { display: none; }
+}

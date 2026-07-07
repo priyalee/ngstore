@@ -1,0 +1,44 @@
+<div class="drawer-backdrop" [class.show]="open" (click)="close()"></div>
+
+<aside class="drawer" [class.open]="open" aria-label="Shopping cart">
+  <header class="d-head">
+    <h3><i class="fa-solid fa-cart-shopping"></i> Your Cart</h3>
+    <button class="d-close" (click)="close()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+  </header>
+
+  <!-- Empty -->
+  <div class="d-empty" *ngIf="!items.length">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <p>Your cart is empty</p>
+    <a routerLink="/home" class="btn btn-brand btn-sm">Browse products</a>
+  </div>
+
+  <!-- Items -->
+  <div class="d-items" *ngIf="items.length">
+    <div class="d-item" *ngFor="let i of items; trackBy: trackById">
+      <a class="d-thumb" [routerLink]="['/product', i.id]"><img [src]="i.image" [alt]="i.title" /></a>
+      <div class="d-info">
+        <a class="d-title clamp-2" [routerLink]="['/product', i.id]">{{ i.title }}</a>
+        <div class="d-controls">
+          <div class="d-qty">
+            <button (click)="dec(i)" [disabled]="i.quantity === 1">−</button>
+            <span>{{ i.quantity }}</span>
+            <button (click)="inc(i)">+</button>
+          </div>
+          <span class="d-price">{{ i.price * i.quantity | currency }}</span>
+        </div>
+      </div>
+      <button class="d-remove" (click)="remove(i)" aria-label="Remove"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="d-foot" *ngIf="items.length">
+    <div class="d-sub"><span>Subtotal</span><strong>{{ subtotal | currency }}</strong></div>
+    <p class="d-note">Shipping &amp; taxes calculated at checkout</p>
+    <div class="d-actions">
+      <a routerLink="/cart" class="btn btn-ghost">View cart</a>
+      <a routerLink="/checkout" class="btn btn-accent">Checkout</a>
+    </div>
+  </footer>
+</aside>
