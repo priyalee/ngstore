@@ -51,7 +51,16 @@ For end-to-end (e2e) testing, run:
 ```bash
 ng e2e
 ```
+## Features 
 
+ **Dynamic Product Listings:** Display products with images, names, and prices  
+ **Front Banner:** Highlight promotions or featured items  
+ **Category Sections:** Organize products by type  
+ **Responsive Design:** Optimized for desktop, tablet, and mobile  
+ **Fast Performance:** Powered by Angular for a smooth user experience  
+ **Customizable:** Easily extend components or integrate with backend APIs  
+
+---
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
 ## Additional Resources
