@@ -45,6 +45,7 @@ export class TranslationService {
     'lang.save': { en: 'Save changes', hi: 'बदलाव सहेजें', es: 'Guardar cambios', fr: 'Enregistrer', de: 'Änderungen speichern', zh: '保存更改', ja: '変更を保存', ar: 'حفظ التغييرات' },
     'common.cancel': { en: 'Cancel', hi: 'रद्द करें', es: 'Cancelar', fr: 'Annuler', de: 'Abbrechen', zh: '取消', ja: 'キャンセル', ar: 'إلغاء' },
 
+    'hero.welcome': { en: 'Welcome to the store', hi: 'स्टोर में आपका स्वागत है', es: 'Bienvenido a la tienda', fr: 'Bienvenue dans la boutique', de: 'Willkommen im Store', zh: '欢迎来到商店', ja: 'ストアへようこそ', ar: 'مرحبًا بك في المتجر' },
     'hero.badge': { en: 'Summer Sale — up to 50% off', hi: 'समर सेल — 50% तक की छूट', es: 'Rebajas de verano — hasta 50% de descuento', fr: "Soldes d'été — jusqu'à 50 % de réduction", de: 'Sommer-Sale — bis zu 50 % Rabatt', zh: '夏季大促 — 低至五折', ja: 'サマーセール — 最大50%オフ', ar: 'تخفيضات الصيف — حتى 50٪' },
     'hero.title1': { en: 'Everything you love,', hi: 'आपकी पसंद का सब कुछ,', es: 'Todo lo que amas,', fr: 'Tout ce que vous aimez,', de: 'Alles, was du liebst,', zh: '你所热爱的一切，', ja: 'あなたの好きなすべてを、', ar: 'كل ما تحب،' },
     'hero.title2': { en: 'delivered to your door.', hi: 'आपके दरवाज़े तक।', es: 'entregado en tu puerta.', fr: 'livré à votre porte.', de: 'direkt an deine Tür geliefert.', zh: '送货上门。', ja: 'ドアまでお届け。', ar: 'يُوصَّل إلى بابك.' },

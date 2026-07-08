@@ -5,7 +5,7 @@
       <h1>Hello, {{ displayName }}</h1>
       <p class="text-muted-2"><i class="fa-solid fa-location-dot"></i> Delivering to {{ profile.location }}<ng-container *ngIf="profile.pincode"> · {{ profile.pincode }}</ng-container></p>
     </div>
-    <a routerLink="/signin" class="btn btn-ghost"><i class="fa-solid fa-right-from-bracket"></i> Sign out</a>
+    <button type="button" (click)="signOut()" class="btn btn-ghost"><i class="fa-solid fa-right-from-bracket"></i> Sign out</button>
   </div>
 </section>
 
@@ -54,11 +54,19 @@
     </form>
   </div>
 
-  <!-- Quick links -->
+  <!-- Quick links (with live counts) -->
   <div class="quick">
     <a class="q-card surface" *ngFor="let q of quickLinks" [routerLink]="q.link">
       <div class="q-ic"><i class="fa-solid" [ngClass]="q.icon"></i></div>
-      <div><strong>{{ q.title }}</strong><span>{{ q.desc }}</span></div>
+      <div class="q-txt">
+        <strong>{{ q.title }}</strong>
+        <span class="q-desc">{{ q.desc }}</span>
+        <span class="q-badge" *ngIf="hasBadge(q.type)" [ngSwitch]="q.type">
+          <ng-container *ngSwitchCase="'orders'">{{ orderCount }} order{{ orderCount === 1 ? '' : 's' }}</ng-container>
+          <ng-container *ngSwitchCase="'cart'">{{ cartCount }} item{{ cartCount === 1 ? '' : 's' }} · {{ cartSubtotal | currency }}</ng-container>
+          <ng-container *ngSwitchCase="'wishlist'">{{ wishCount }} saved</ng-container>
+        </span>
+      </div>
       <i class="fa-solid fa-chevron-right go"></i>
     </a>
   </div>
@@ -83,32 +91,63 @@
 
   <!-- Admin (users management) -->
   <div class="admin surface">
-    <button class="admin-toggle" (click)="showAdmin = !showAdmin">
+    <button class="admin-toggle" (click)="showAdmin = !showAdmin" [attr.aria-expanded]="showAdmin">
       <span><i class="fa-solid fa-users-gear"></i> Manage users <small>(admin)</small></span>
       <i class="fa-solid" [ngClass]="showAdmin ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
     </button>
 
     <div class="admin-body" *ngIf="showAdmin">
       <div class="admin-bar">
-        <span class="text-muted-2">{{ users.length }} registered users</span>
-        <button class="btn btn-brand btn-sm" (click)="addUser()"><i class="fa-solid fa-user-plus"></i> Add user</button>
+        <span class="text-muted-2" *ngIf="!usersLoading && !usersError">{{ users.length }} registered users</span>
+        <span class="text-muted-2" *ngIf="usersLoading">Loading users…</span>
+        <span class="text-muted-2" *ngIf="usersError">Couldn't load users</span>
+        <button class="btn btn-brand btn-sm" (click)="addUser()" [disabled]="adding || usersLoading">
+          <i class="fa-solid" [ngClass]="adding ? 'fa-spinner fa-spin' : 'fa-user-plus'"></i> {{ adding ? 'Adding…' : 'Add user' }}
+        </button>
       </div>
 
-      <div class="table-wrap">
+      <!-- Loading skeleton -->
+      <div class="table-wrap" *ngIf="usersLoading">
+        <div class="skeleton-row" *ngFor="let r of [1,2,3,4,5]">
+          <span class="sk sk-sm"></span><span class="sk sk-md"></span><span class="sk sk-lg"></span><span class="sk sk-md"></span><span class="sk sk-sm"></span>
+        </div>
+      </div>
+
+      <!-- Error state -->
+      <div class="admin-state error" *ngIf="usersError && !usersLoading">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <p>We couldn't load the user list.</p>
+        <button class="btn btn-brand btn-sm" (click)="loadUsers()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+      </div>
+
+      <!-- Empty state -->
+      <div class="admin-state empty" *ngIf="!usersLoading && !usersError && users.length === 0">
+        <i class="fa-solid fa-users-slash"></i>
+        <p>No users yet. Use <strong>Add user</strong> to create one.</p>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap" *ngIf="!usersLoading && !usersError && users.length > 0">
         <table>
           <thead>
             <tr><th>ID</th><th>Username</th><th>Email</th><th>Phone</th><th class="ta-r">Actions</th></tr>
           </thead>
           <tbody>
-            <tr *ngFor="let u of users">
+            <tr *ngFor="let u of users; trackBy: trackUser" [class.row-busy]="busyId === u.id" [class.row-active]="singleUser?.id === u.id">
               <td><b>{{ u.id }}</b></td>
               <td>{{ u.username }}</td>
               <td class="clamp-1">{{ u.email }}</td>
               <td>{{ u.phone }}</td>
               <td class="ta-r acts">
-                <button class="ic-btn view" (click)="loadUser(u.id)" title="View"><i class="fa-solid fa-eye"></i></button>
-                <button class="ic-btn edit" (click)="updateUser(u.id)" title="Update"><i class="fa-solid fa-pen"></i></button>
-                <button class="ic-btn del" (click)="deleteUser(u.id)" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                <button class="ic-btn view" (click)="loadUser(u.id)" [disabled]="busyId === u.id" [attr.aria-label]="'View ' + u.username" title="View">
+                  <i class="fa-solid" [ngClass]="viewingId === u.id ? 'fa-spinner fa-spin' : (singleUser?.id === u.id ? 'fa-eye-slash' : 'fa-eye')"></i>
+                </button>
+                <button class="ic-btn edit" (click)="updateUser(u.id)" [disabled]="busyId != null" [attr.aria-label]="'Update ' + u.username" title="Update">
+                  <i class="fa-solid" [ngClass]="busyId === u.id ? 'fa-spinner fa-spin' : 'fa-pen'"></i>
+                </button>
+                <button class="ic-btn del" (click)="askDelete(u)" [disabled]="busyId != null" [attr.aria-label]="'Delete ' + u.username" title="Delete">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -116,13 +155,28 @@
       </div>
 
       <div class="picked surface" *ngIf="singleUser">
-        <h4><i class="fa-solid fa-user"></i> {{ singleUser.name.firstname }} {{ singleUser.name.lastname }}</h4>
+        <h4><i class="fa-solid fa-user"></i> {{ singleUser.name?.firstname }} {{ singleUser.name?.lastname }}</h4>
         <div class="picked-rows">
           <span>Email: <strong>{{ singleUser.email }}</strong></span>
           <span>Username: <strong>{{ singleUser.username }}</strong></span>
           <span>Phone: <strong>{{ singleUser.phone }}</strong></span>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete confirmation dialog -->
+<div class="confirm-backdrop" *ngIf="pendingDelete" (click)="cancelDelete()">
+  <div class="confirm-card surface" (click)="$event.stopPropagation()" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="confirm-ic"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <h4 id="confirmTitle">Delete this user?</h4>
+    <p class="text-muted-2">
+      <strong>{{ pendingDelete.username }}</strong> ({{ pendingDelete.email }}) will be removed. This can't be undone.
+    </p>
+    <div class="confirm-actions">
+      <button class="btn btn-ghost" (click)="cancelDelete()">Cancel</button>
+      <button class="btn btn-danger" (click)="confirmDelete()"><i class="fa-solid fa-trash"></i> Delete</button>
     </div>
   </div>
 </div>

@@ -40,6 +40,48 @@
   gap: 2.5rem;
   align-items: center;
 }
+/* Welcome greeting — real icon + real motion (no emoji) */
+.welcome-greet {
+  display: inline-flex; align-items: center; gap: .65rem;
+  margin: 0 0 1rem;
+  font-family: "Poppins", sans-serif; font-weight: 700; font-size: 1.1rem;
+}
+.wg-hand {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(var(--brand-rgb), .12); color: var(--brand);
+  animation: wg-pulse 2.8s ease-out infinite;
+}
+.wg-hand i { transform-origin: 70% 80%; animation: wg-wave 2.8s ease-in-out infinite; }
+.wg-text {
+  background: linear-gradient(100deg, var(--text) 0%, var(--text) 38%, var(--brand) 50%, var(--text) 62%, var(--text) 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: wg-shine 3.6s linear infinite;
+}
+@keyframes wg-wave {
+  0%, 60%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(16deg); }
+  20% { transform: rotate(-10deg); }
+  30% { transform: rotate(16deg); }
+  40% { transform: rotate(-6deg); }
+  50% { transform: rotate(12deg); }
+}
+@keyframes wg-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(var(--brand-rgb), .32); }
+  70%  { box-shadow: 0 0 0 11px rgba(var(--brand-rgb), 0); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--brand-rgb), 0); }
+}
+@keyframes wg-shine {
+  0%   { background-position: 120% 0; }
+  100% { background-position: -120% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wg-hand, .wg-hand i, .wg-text { animation: none; }
+  .wg-text { -webkit-text-fill-color: var(--text); }
+}
+
 .hero-copy .badge-soft { margin-bottom: 1.2rem; }
 .hero-copy h1 {
   font-size: clamp(2.1rem, 5vw, 3.6rem);

@@ -23,17 +23,45 @@
   background: linear-gradient(150deg, var(--brand), var(--brand-700));
   color: #fff;
   padding: 3rem 2.5rem;
-  display: flex; flex-direction: column; justify-content: center;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
 }
-.side-logo { font-family: "Poppins", sans-serif; font-weight: 800; font-size: 1.4rem; display: flex; align-items: center; gap: .5rem; margin-bottom: 2rem; }
-.auth-side h2 { color: #fff; font-size: 1.9rem; font-weight: 800; margin-bottom: .8rem; }
-.auth-side > p { color: rgba(255,255,255,.9); line-height: 1.6; }
-.side-perks { list-style: none; padding: 0; margin: 2rem 0 0; }
+/* soft decorative glow */
+.auth-side::after {
+  content: ""; position: absolute; right: -70px; bottom: -70px;
+  width: 240px; height: 240px; border-radius: 50%;
+  background: rgba(255,255,255,.08); pointer-events: none;
+}
+.side-logo { font-family: "Poppins", sans-serif; font-weight: 800; font-size: 1.4rem; display: flex; align-items: center; gap: .5rem; margin-bottom: 2.5rem; position: relative; z-index: 1; }
+.side-content { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 1; }
+.wave { font-size: 2.6rem; line-height: 1; display: inline-block; transform-origin: 70% 80%; animation: wave 2.6s ease-in-out infinite; }
+.auth-side h2 { color: #fff; font-size: 2.3rem; font-weight: 800; margin: .7rem 0 .8rem; line-height: 1.12; }
+.side-content p { color: rgba(255,255,255,.92); line-height: 1.6; }
+.side-perks { list-style: none; padding: 0; margin: 1.9rem 0 0; }
 .side-perks li { display: flex; align-items: center; gap: .6rem; padding: .5rem 0; font-size: .95rem; }
 .side-perks i { color: #fff; }
+.side-foot { position: relative; z-index: 1; margin: 2rem 0 0; font-size: .8rem; color: rgba(255,255,255,.82); display: flex; align-items: center; gap: .45rem; }
+.side-foot i { color: #fff; }
+
+@keyframes wave {
+  0%, 65%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-8deg); }
+  30% { transform: rotate(14deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wave { animation: none; }
+}
 
 /* Form side */
 .auth-form { padding: 3rem 2.5rem; }
+
+/* Compact welcome for mobile (side panel is hidden < 820px) */
+.mobile-welcome { display: none; }
+.mw-logo { font-family: "Poppins", sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--brand); display: flex; align-items: center; gap: .45rem; margin-bottom: .5rem; }
+.mobile-welcome h2 { font-size: 1.5rem; font-weight: 800; margin: 0 0 .25rem; }
 .auth-form h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: .3rem; }
 .auth-form > p { margin-bottom: 1.75rem; }
 
@@ -95,4 +123,5 @@
 @media (max-width: 820px) {
   .auth-card { grid-template-columns: 1fr; }
   .auth-side { display: none; }
+  .mobile-welcome { display: block; margin-bottom: 1.5rem; }
 }
